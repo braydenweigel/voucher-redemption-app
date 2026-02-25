@@ -38,6 +38,8 @@ authRouter.post('/login', async function (req, res, next){
     res.status(200).send(data)
 })
 
+
+
 authRouter.post('/refresh', async function (req, res, next){
     const refresh_token: string = req.body.refresh_token
 
@@ -57,6 +59,8 @@ authRouter.post('/refresh', async function (req, res, next){
 
     res.status(200).send(data)
 })
+
+
 
 authRouter.post('/logout', authMiddleware, async function (req, res, next){
     if (!req.supabase){
