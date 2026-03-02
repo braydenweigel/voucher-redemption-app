@@ -1,5 +1,5 @@
 import { Tabs } from "expo-router"
-import { Settings, House, Ticket } from 'lucide-react-native'
+import { UserRound, House, Ticket } from 'lucide-react-native'
 
 export default function TabLayout(){
     return (
@@ -13,8 +13,8 @@ export default function TabLayout(){
                 tabBarIcon: (() => {return <Ticket/>}) 
             }}/>
             <Tabs.Screen name="settings" options={{ 
-                title: 'Settings',
-                tabBarIcon: (() => {return <Settings/>}) 
+                title: 'Profile',
+                tabBarIcon: (() => {return <UserRound/>}) 
             }}/>
         </Tabs>
     )

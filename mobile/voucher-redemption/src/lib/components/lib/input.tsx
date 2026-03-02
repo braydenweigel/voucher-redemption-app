@@ -1,5 +1,7 @@
+import { StyleSheet, useColorScheme } from "react-native"
 
 export function InputField(){
+    const colorScheme = useColorScheme()
 
     return (
         <></>
@@ -12,3 +14,7 @@ export function InputLabel(){
         <></>
     )
 }
+
+const styles = StyleSheet.create({
+
+})
