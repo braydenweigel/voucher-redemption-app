@@ -1,5 +1,6 @@
 import { fetchProfile } from "@/lib/store/profileSlice"
 import { AppDispatch } from "@/lib/store/store"
+import { fetchVouchers } from "@/lib/store/vouchersSlice"
 import { Tabs } from "expo-router"
 import { UserRound, House, Ticket } from 'lucide-react-native'
 import { useEffect } from "react"
@@ -7,9 +8,10 @@ import { useDispatch } from "react-redux"
 
 export default function TabLayout(){
     const dispatch = useDispatch<AppDispatch>()
-    
+
     useEffect(() => {
         dispatch(fetchProfile())
+        dispatch(fetchVouchers())
     }, [dispatch])
 
 

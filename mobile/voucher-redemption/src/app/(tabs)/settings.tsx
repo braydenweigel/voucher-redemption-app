@@ -16,13 +16,13 @@ export default function SettingsPage(){
 
 
     return (
-            <SafeAreaView style={styles.page}>
-                <Text>First Name: {data?.first_name}</Text>
-                <Text>Last Name: {data?.last_name}</Text>
-                <Text>Email: {data?.email}</Text>
+        <SafeAreaView style={styles.page}>
+            <Text>First Name: {data?.first_name}</Text>
+            <Text>Last Name: {data?.last_name}</Text>
+            <Text>Email: {data?.email}</Text>
 
-                <Pressable style={styles.button} onPress={handleButton}><Text style={styles.buttonText}>Sign Out</Text></Pressable>
-            </SafeAreaView>
+            <Pressable style={styles.button} onPress={handleButton}><Text style={styles.buttonText}>Sign Out</Text></Pressable>
+        </SafeAreaView>
     )
 }
 

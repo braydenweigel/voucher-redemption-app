@@ -1,10 +1,38 @@
-import { Stack } from "expo-router";
+import { RootState } from "@/lib/store/store";
+import { StyleSheet, View, Text, FlatList } from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
+import { useSelector } from "react-redux";
+
+function convertDate(date: Date | null){
+    if (!date) return ""
+
+   return new Date(date).toLocaleDateString("en-US", {
+    month: "2-digit",
+    day: "2-digit"
+  })
+}
 
 export default function VouchersPage(){
+    const { data, loading, error } = useSelector((state: RootState) => state.vouchers)
 
     return (
-        <Stack>
-
-        </Stack>
+        <SafeAreaView style={styles.page}>
+            <Text>Voucher ID    Redeemed     Redeemed At</Text>
+            <FlatList
+                data={data}
+                renderItem={({item}) => <Text>{item.voucherid}             {item.redeemed ? "TRUE" : "FALSE"}       {item.redeemed ? convertDate(item.redeemedat) : null}</Text>}
+                keyExtractor={item => item.voucherid}
+            />
+        </SafeAreaView>
     )
 }
+
+
+const styles = StyleSheet.create({
+    page: {
+        flex: 1,
+        paddingHorizontal: '5%',
+        paddingVertical: '10%',
+        
+    }
+})
