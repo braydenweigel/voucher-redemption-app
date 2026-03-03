@@ -4,6 +4,8 @@ import { Stack } from "expo-router"
 import { useAuth } from "@/lib/hooks/use-auth-context"
 import { SafeAreaProvider } from "react-native-safe-area-context"
 import { useEffect } from "react"
+import { Provider } from "react-redux"
+import { store } from "@/lib/store/store"
 
 function RootNavigator(){
     const { isLoggedIn, getSession } = useAuth()
@@ -27,11 +29,13 @@ function RootNavigator(){
 export default function RootLayout(){
 
     return (
-        <AuthProvider>
-            <SplashScreenController/>
-            <SafeAreaProvider>
-                <RootNavigator/>
-            </SafeAreaProvider>
-        </AuthProvider>
+        <Provider store={store}>
+            <AuthProvider>
+                <SplashScreenController/>
+                <SafeAreaProvider>
+                    <RootNavigator/>
+                </SafeAreaProvider>
+            </AuthProvider>
+        </Provider>
     )
 }

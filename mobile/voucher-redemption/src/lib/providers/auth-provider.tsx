@@ -1,6 +1,5 @@
-import { PropsWithChildren, useEffect, useState } from "react"
-import { AuthContext, initialAuthState, useAuth } from "../hooks/use-auth-context"
-import { Session, User } from "@supabase/supabase-js"
+import { PropsWithChildren, useState } from "react"
+import { AuthContext, initialAuthState } from "../hooks/use-auth-context"
 import { supabase } from "../supabase/supabase"
 import { Alert } from "react-native"
 
