@@ -33,6 +33,13 @@
         "expo-secure-store", {
           "configureAndroidBackup": true
         }
+      ],
+      [
+        "expo-camera",
+        {
+          "cameraPermission": "Allow $(PRODUCT_NAME) to access your camera",
+          "barcodeScannerEnabled": true
+        }
       ]
     ],
     "experiments": {
