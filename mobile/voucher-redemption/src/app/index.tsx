@@ -2,7 +2,8 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import { Button, StyleSheet, TextInput, Text, View, Pressable } from "react-native";
 import { useAuth } from "@/lib/hooks/use-auth-context";
 import { useState } from "react";
-import { InputField, InputLabel } from "@/lib/components/lib/input";
+import { Input, InputLabel } from "@/lib/components/lib/input";
+import CustomButton from "@/lib/components/lib/button";
 
 export default function LoginPage(){
     const [email, setEmail] = useState('')
@@ -18,13 +19,14 @@ export default function LoginPage(){
     return (
         <SafeAreaView style={styles.page}>
             <View style={styles.loginCard}>
-                <Text>Email</Text>
-                <TextInput style={styles.input} value={email} onChangeText={t => setEmail(t)} placeholder="Email"/>
 
-                <Text>Password</Text>
-                <TextInput style={styles.input} value={password} onChangeText={t => setPassword(t)} placeholder="Password" secureTextEntry={true}/>
+                <InputLabel value="Email"/>   
+                <Input value={email} onChangeText={setEmail} placeholder="Email" style={{marginBottom: 20}}/>
 
-                <Pressable style={styles.button} onPress={handleButton}><Text style={styles.buttonText}>Sign In</Text></Pressable>
+                <InputLabel value="Password"/>   
+                <Input value={password} onChangeText={setPassword} placeholder="Password" secure={true} style={{marginBottom: 20}}/>
+
+                <CustomButton text="Sign In" onPress={handleButton}/>
                 
             </View>
 
