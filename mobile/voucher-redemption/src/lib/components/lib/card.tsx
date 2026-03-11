@@ -15,7 +15,7 @@ export default function Card({ children, style }: CardProps) {
             display: "flex",
             flexDirection: "column",
             width: 360,
-            height: 360,
+            height: "auto",
             paddingHorizontal: 30,
             paddingVertical: 30,
             backgroundColor: theme.background_primary,

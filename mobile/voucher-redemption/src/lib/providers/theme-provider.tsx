@@ -55,6 +55,8 @@ export function ThemeProvider({ children }: PropsWithChildren){
 }
 
 const dark: Theme = {
+    name: "dark",
+    status_bar: "light",
     background_primary: "#0c0a09",
     background_secondary: "#292524",
     accent_primary: "#78716c",
@@ -67,6 +69,8 @@ const dark: Theme = {
 }
 
 const light: Theme = {
+    name: "light",
+    status_bar: "dark",
     background_primary: "#fafaf9",
     background_secondary: "#e7e5e4",
     accent_primary: "#57524e",
@@ -75,5 +79,5 @@ const light: Theme = {
     text_secondary: "#292524",
     text_muted: "#57524e",
     text_accent: "#fafaf9",
-    input: "#fafaf9"
+    input: "#f5f5f4"
 }

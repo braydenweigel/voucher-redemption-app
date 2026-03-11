@@ -1,6 +1,8 @@
 import { createContext, useContext } from 'react'
 
 export type Theme = {
+    name: string
+    status_bar: "light" | "dark"
     background_primary: string
     background_secondary: string
     accent_primary: string
