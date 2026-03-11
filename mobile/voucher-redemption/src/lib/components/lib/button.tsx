@@ -1,14 +1,15 @@
 import { useTheme } from "@/lib/hooks/use-theme-context"
-import { StyleSheet, TextInput, Text, useColorScheme, View, Pressable, StyleProp, ViewStyle, TextStyle } from "react-native"
+import { ReactNode } from "react"
+import { StyleSheet, TextInput, Text, useColorScheme, View, Pressable, StyleProp, ViewStyle, TextStyle, PressableProps } from "react-native"
 
-interface ButtonProps {
-    text: string | null
-    onPress: () => void
+type ButtonProps = PressableProps & {
+    text?: string
+    children?: ReactNode
     style?: StyleProp<ViewStyle>
     textStyle?: StyleProp<TextStyle>
 }
 
-export default function Button({text = null, onPress, style, textStyle}: ButtonProps){
+export default function Button({text, children, style, textStyle, ...props}: ButtonProps){
     const { theme } = useTheme()
 
     const styles = StyleSheet.create({
@@ -27,8 +28,10 @@ export default function Button({text = null, onPress, style, textStyle}: ButtonP
     })
 
     return (
-        <Pressable style={[styles.button, style]} onPress={onPress}>
-            {text && <Text style={[styles.buttonText, textStyle]}>{text}</Text>}
+        <Pressable style={[styles.button, style]} {...props}>
+            {children ? children : text && (
+                <Text style={[styles.buttonText, textStyle]}>{text}</Text>
+            )}
         </Pressable>
     )
 }

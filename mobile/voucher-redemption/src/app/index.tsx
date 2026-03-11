@@ -45,7 +45,7 @@ export default function LoginPage(){
                     <Input value={email} onChangeText={setEmail} placeholder="Email" style={{marginBottom: 20}}/>
 
                     <InputLabel value="Password"/>   
-                    <Input value={password} onChangeText={setPassword} placeholder="Password" secure={true} style={{marginBottom: 50}}/>
+                    <Input value={password} onChangeText={setPassword} placeholder="Password" secureTextEntry={true} style={{marginBottom: 50}}/>
                 </View>
                 <Button text="Sign In" onPress={handleButton} style={{marginTop: "auto"}}/>
             </Card>

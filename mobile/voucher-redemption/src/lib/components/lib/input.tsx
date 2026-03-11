@@ -1,17 +1,14 @@
 import { useTheme } from "@/lib/hooks/use-theme-context"
-import { StyleSheet, TextInput, Text, useColorScheme, View, StyleProp, ViewStyle, TextStyle } from "react-native"
+import { ReactNode } from "react"
+import { StyleSheet, TextInput, Text, useColorScheme, View, StyleProp, ViewStyle, TextStyle, TextInputProps } from "react-native"
 
-interface InputProps {
-    value?: string
-    onChangeText: React.Dispatch<React.SetStateAction<string>>
-    placeholder?: string
-    keyboardType?: "default" | "number-pad" | "decimal-pad" | "numeric" | "email-address" | "phone-pad" | "url"
-    secure?: boolean
+type InputProps = TextInputProps & {
+    children?: ReactNode
     style?: StyleProp<ViewStyle>
     textStyle?: StyleProp<TextStyle>
 }
 
-export function Input({value = "", onChangeText, placeholder = "", keyboardType = "default", secure = false, style, textStyle}: InputProps){
+export function Input({children, style, textStyle, ...props}: InputProps){
     const { theme } = useTheme()
 
     const styles = StyleSheet.create({
@@ -31,7 +28,8 @@ export function Input({value = "", onChangeText, placeholder = "", keyboardType 
 
     return (
         <View style={[styles.inputView, style]}>
-            <TextInput style={[styles.input, textStyle]} value={value} onChangeText={onChangeText} placeholder={placeholder} keyboardType={keyboardType} secureTextEntry={secure} placeholderTextColor={theme.text_muted}/>
+            <TextInput style={[styles.input, textStyle]} placeholderTextColor={theme.text_muted} {...props}/>
+            {children}
         </View>
     )
 }
