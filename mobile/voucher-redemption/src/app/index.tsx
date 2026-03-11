@@ -1,9 +1,9 @@
 import { SafeAreaView } from "react-native-safe-area-context";
-import { Button, StyleSheet, TextInput, Text, View, Pressable } from "react-native";
+import { StyleSheet, TextInput, Text, View, Pressable } from "react-native";
 import { useAuth } from "@/lib/hooks/use-auth-context";
 import { useState } from "react";
 import { Input, InputLabel } from "@/lib/components/lib/input";
-import CustomButton from "@/lib/components/lib/button";
+import Button from "@/lib/components/lib/button";
 
 export default function LoginPage(){
     const [email, setEmail] = useState('')
@@ -26,7 +26,7 @@ export default function LoginPage(){
                 <InputLabel value="Password"/>   
                 <Input value={password} onChangeText={setPassword} placeholder="Password" secure={true} style={{marginBottom: 20}}/>
 
-                <CustomButton text="Sign In" onPress={handleButton}/>
+                <Button text="Sign In" onPress={handleButton}/>
                 
             </View>
 

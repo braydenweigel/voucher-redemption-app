@@ -1,3 +1,4 @@
+import { useTheme } from "@/lib/hooks/use-theme-context"
 import { StyleSheet, TextInput, Text, useColorScheme, View, StyleProp, ViewStyle, TextStyle } from "react-native"
 
 interface InputProps {
@@ -11,11 +12,23 @@ interface InputProps {
 }
 
 export function Input({value = "", onChangeText, placeholder = "", keyboardType = "default", secure = false, style, textStyle}: InputProps){
-    const colorScheme = useColorScheme()
+    const { theme } = useTheme()
+
+    const styles = StyleSheet.create({
+        inputView: {
+            paddingHorizontal: 15,
+            borderRadius: 20,
+            backgroundColor: theme.background_secondary
+        },
+        input: {
+            height: 40,
+            fontSize: 16
+        }
+    })
 
     return (
         <View style={[styles.inputView, style]}>
-            <TextInput style={[styles.input, textStyle]} value={value} onChangeText={onChangeText} placeholder={placeholder} keyboardType={keyboardType} secureTextEntry={secure}/>
+            <TextInput style={[styles.input, textStyle]} value={value} onChangeText={onChangeText} placeholder={placeholder} keyboardType={keyboardType} secureTextEntry={secure} placeholderTextColor={theme.text_secondary}/>
         </View>
     )
 }
@@ -26,24 +39,18 @@ interface InputLabelProps {
 }
 
 export function InputLabel({value, textStyle}: InputLabelProps){
+    const { theme } = useTheme()
+
+    const styles = StyleSheet.create({
+        label: {
+            marginBottom: 3,
+            fontSize: 16,
+            color: theme.text_primary
+        }
+    })
 
     return (
         <Text style={[styles.label, textStyle]}>{value}</Text>
     )
 }
 
-const styles = StyleSheet.create({
-    inputView: {
-        paddingHorizontal: 15,
-        borderRadius: 20,
-        backgroundColor: "#EEEEEE"
-    },
-    input: {
-        height: 40,
-        fontSize: 16
-    },
-    label: {
-        marginBottom: 3,
-        fontSize: 16
-    }
-})

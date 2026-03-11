@@ -6,6 +6,7 @@ import { SafeAreaProvider } from "react-native-safe-area-context"
 import { useEffect } from "react"
 import { Provider } from "react-redux"
 import { store } from "@/lib/store/store"
+import { ThemeProvider } from "@/lib/providers/theme-provider"
 
 function RootNavigator(){
     const { isLoggedIn, getSession } = useAuth()
@@ -30,12 +31,14 @@ export default function RootLayout(){
 
     return (
         <Provider store={store}>
-            <AuthProvider>
-                <SplashScreenController/>
-                <SafeAreaProvider>
-                    <RootNavigator/>
-                </SafeAreaProvider>
-            </AuthProvider>
+            <ThemeProvider>
+                <AuthProvider>
+                    <SplashScreenController/>
+                    <SafeAreaProvider>
+                        <RootNavigator/>
+                    </SafeAreaProvider>
+                </AuthProvider>
+            </ThemeProvider>
         </Provider>
     )
 }

@@ -1,4 +1,5 @@
-import { StyleSheet, TextInput, Text, useColorScheme, View, Pressable, Button, StyleProp, ViewStyle, TextStyle } from "react-native"
+import { useTheme } from "@/lib/hooks/use-theme-context"
+import { StyleSheet, TextInput, Text, useColorScheme, View, Pressable, StyleProp, ViewStyle, TextStyle } from "react-native"
 
 interface ButtonProps {
     text: string | null
@@ -7,24 +8,26 @@ interface ButtonProps {
     textStyle?: StyleProp<TextStyle>
 }
 
-export default function CustomButton({text = null, onPress, style, textStyle}: ButtonProps){
+export default function Button({text = null, onPress, style, textStyle}: ButtonProps){
+    const { theme } = useTheme()
+
+    const styles = StyleSheet.create({
+        button: {
+            backgroundColor: theme.accent_primary,
+            height: 40,
+            borderRadius: 20,
+            justifyContent: "center"
+        },
+        buttonText: {
+            color: "#FFFFFF",
+            textAlign: "center",
+            fontSize: 18
+        }
+    })
+
     return (
         <Pressable style={[styles.button, style]} onPress={onPress}>
             {text && <Text style={[styles.buttonText, textStyle]}>{text}</Text>}
         </Pressable>
     )
 }
-
-const styles = StyleSheet.create({
-    button: {
-        backgroundColor: "#000000",
-        height: 40,
-        borderRadius: 20,
-        justifyContent: "center"
-    },
-    buttonText: {
-        color: "#FFFFFF",
-        textAlign: "center",
-        fontSize: 18
-    }
-})

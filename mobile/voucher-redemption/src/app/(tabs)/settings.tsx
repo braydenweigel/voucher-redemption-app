@@ -1,3 +1,4 @@
+import CustomButton from "@/lib/components/lib/button";
 import { useAuth } from "@/lib/hooks/use-auth-context";
 import { RootState } from "@/lib/store/store";
 import { Stack } from "expo-router";
@@ -21,7 +22,7 @@ export default function SettingsPage(){
             <Text>Last Name: {data?.last_name}</Text>
             <Text>Email: {data?.email}</Text>
 
-            <Pressable style={styles.button} onPress={handleButton}><Text style={styles.buttonText}>Sign Out</Text></Pressable>
+            <CustomButton text="Sign Out" onPress={handleButton} />
         </SafeAreaView>
     )
 }
@@ -32,15 +33,5 @@ const styles = StyleSheet.create({
         paddingHorizontal: '5%',
         paddingVertical: '10%',
         
-    },
-    button: {
-        backgroundColor: "#000000",
-        height: 30,
-        justifyContent: "center",
-        marginTop: 15
-    },
-    buttonText: {
-        color: "#FFFFFF",
-        textAlign: "center"
     }
 })
