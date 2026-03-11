@@ -18,17 +18,20 @@ export function Input({value = "", onChangeText, placeholder = "", keyboardType 
         inputView: {
             paddingHorizontal: 15,
             borderRadius: 20,
-            backgroundColor: theme.background_secondary
+            backgroundColor: theme.input,
+            borderWidth: 1,
+            borderColor: theme.background_secondary
         },
         input: {
             height: 40,
-            fontSize: 16
+            fontSize: 16,
+            color: theme.text_primary
         }
     })
 
     return (
         <View style={[styles.inputView, style]}>
-            <TextInput style={[styles.input, textStyle]} value={value} onChangeText={onChangeText} placeholder={placeholder} keyboardType={keyboardType} secureTextEntry={secure} placeholderTextColor={theme.text_secondary}/>
+            <TextInput style={[styles.input, textStyle]} value={value} onChangeText={onChangeText} placeholder={placeholder} keyboardType={keyboardType} secureTextEntry={secure} placeholderTextColor={theme.text_muted}/>
         </View>
     )
 }

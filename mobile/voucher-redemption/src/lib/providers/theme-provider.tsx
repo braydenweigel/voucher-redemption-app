@@ -5,7 +5,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage"
 
 export function ThemeProvider({ children }: PropsWithChildren){
     const systemTheme = useColorScheme()
-    const [themeSetting, setThemeSetting] = useState<ThemeType>("system")
+    const [themeSetting, setThemeSetting] = useState<ThemeType>("dark")
 
     let activeTheme = light
 
@@ -55,19 +55,25 @@ export function ThemeProvider({ children }: PropsWithChildren){
 }
 
 const dark: Theme = {
-    background_primary: "#011D17",
-    background_secondary: "#022C22",
-    accent_primary: "#6EE7B7",
-    accent_secondary: "#059669",
-    text_primary: "#FFFFFF",
-    text_secondary: "#FFFFFF"
+    background_primary: "#0c0a09",
+    background_secondary: "#292524",
+    accent_primary: "#78716c",
+    accent_secondary: "#57524e",
+    text_primary: "#fafaf9",
+    text_secondary: "#e7e5e4",
+    text_muted: "#78716c",
+    text_accent: "#fafaf9",
+    input: "#1c1917"
 }
 
 const light: Theme = {
-    background_primary: "#F6FEFA",
-    background_secondary: "#E3FCEF",
-    accent_primary: "#059669",
-    accent_secondary: "#6EE7B7",
-    text_primary: "#022C22",
-    text_secondary: "#022C22"
+    background_primary: "#fafaf9",
+    background_secondary: "#e7e5e4",
+    accent_primary: "#57524e",
+    accent_secondary: "#78716c",
+    text_primary: "#0c0a09",
+    text_secondary: "#292524",
+    text_muted: "#57524e",
+    text_accent: "#fafaf9",
+    input: "#fafaf9"
 }

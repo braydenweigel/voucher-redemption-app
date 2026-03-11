@@ -7,6 +7,9 @@ export type Theme = {
     accent_secondary: string
     text_primary: string
     text_secondary: string
+    text_muted: string
+    text_accent: string
+    input: string
 }
 
 export type ThemeType = "light" | "dark" | "system"

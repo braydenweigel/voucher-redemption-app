@@ -19,9 +19,10 @@ export default function Button({text = null, onPress, style, textStyle}: ButtonP
             justifyContent: "center"
         },
         buttonText: {
-            color: "#FFFFFF",
+            color: theme.text_accent,
             textAlign: "center",
-            fontSize: 18
+            fontSize: 18,
+            fontWeight: "bold"
         }
     })
 
