@@ -5,6 +5,8 @@ import { ScanBarcode } from 'lucide-react-native'
 import { useEffect, useRef, useState } from "react";
 import { CameraView, CameraType, useCameraPermissions } from "expo-camera"
 import { supabase } from "@/lib/supabase/supabase";
+import SafeAreaPage from "@/lib/components/lib/page";
+import Button from "@/lib/components/lib/button";
 
 
 export default function HomePage(){
@@ -99,7 +101,7 @@ export default function HomePage(){
 
 
     return (
-        <SafeAreaView style={styles.page}>
+        <SafeAreaPage>
             {!scanned && <CameraView 
                 style={{flex: 1}} 
                 facing="back" 
@@ -111,8 +113,8 @@ export default function HomePage(){
                 <TextInput placeholder="Voucher ID" value={voucher} onChangeText={t => setVoucher(t)}/>
                 <Pressable onPress={handleScan}><ScanBarcode color={"#000000"}/></Pressable> 
             </View> 
-            <Pressable style={styles.button} onPress={handleRedeem}><Text style={styles.buttonText}>Redeem Voucher</Text></Pressable>
-        </SafeAreaView>
+            <Button onPress={handleRedeem} text="Redeem Voucher"/>
+        </SafeAreaPage>
     )
 }
 

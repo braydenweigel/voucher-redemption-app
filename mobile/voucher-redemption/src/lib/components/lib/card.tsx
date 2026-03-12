@@ -1,13 +1,13 @@
 import { useTheme } from "@/lib/hooks/use-theme-context"
 import { ReactNode } from "react"
-import { StyleSheet, StyleProp, ViewStyle, View } from "react-native"
+import { StyleSheet, StyleProp, ViewStyle, View, ViewProps } from "react-native"
 
-interface CardProps {
-    children: ReactNode
+type CardProps = ViewProps & {
+    children?: ReactNode
     style?: StyleProp<ViewStyle>
 }
 
-export default function Card({ children, style }: CardProps) {
+export default function Card({ children, style, ...props }: CardProps) {
     const { theme } = useTheme()
 
     const styles = StyleSheet.create({
@@ -27,7 +27,7 @@ export default function Card({ children, style }: CardProps) {
     })
 
     return (
-        <View style={[styles.card, style]}>
+        <View style={[styles.card, style]} {...props}>
             {children}
         </View>
     )

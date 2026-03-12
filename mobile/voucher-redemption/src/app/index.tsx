@@ -6,6 +6,7 @@ import { Input, InputLabel } from "@/lib/components/lib/input";
 import Button from "@/lib/components/lib/button";
 import Card from "@/lib/components/lib/card";
 import { useTheme } from "@/lib/hooks/use-theme-context";
+import SafeAreaPage from "@/lib/components/lib/page";
 
 export default function LoginPage(){
     const [email, setEmail] = useState('')
@@ -14,12 +15,6 @@ export default function LoginPage(){
     const { theme } = useTheme()
 
     const styles = StyleSheet.create({
-        page: {
-            flex: 1,
-            justifyContent: 'center',
-            alignItems: 'center',
-            backgroundColor: theme.background_primary
-        },
         header: {
             fontWeight: "bold",
             fontSize: 18,
@@ -37,7 +32,7 @@ export default function LoginPage(){
     }
 
     return (
-        <SafeAreaView style={styles.page}>
+        <SafeAreaPage style={{justifyContent: 'center', alignItems: 'center'}}>
             <Card>
                 <Text style={styles.header}>Sign In to Your Account</Text>
                 <View>
@@ -49,6 +44,6 @@ export default function LoginPage(){
                 </View>
                 <Button text="Sign In" onPress={handleButton} style={{marginTop: "auto"}}/>
             </Card>
-        </SafeAreaView>
+        </SafeAreaPage>
     )
 }
