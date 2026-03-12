@@ -9,14 +9,15 @@ import SafeAreaPage from "@/lib/components/lib/page";
 import Button from "@/lib/components/lib/button";
 import { Input } from "@/lib/components/lib/input";
 import { useTheme } from "@/lib/hooks/use-theme-context";
+import { verifyVoucher } from "@/lib/utils/vouchers";
+import CameraModal from "@/lib/components/lib/camera-modal";
 
 
 export default function HomePage(){
     const { theme } = useTheme()
     const [voucher, setVoucher] = useState('')
     const [permission, requestPermission] = useCameraPermissions()
-    const [scanned, setScanned] = useState(true)
-    const [barcodeData, setBarcodeData] = useState<string | null>(null)
+    const [open, setOpen] = useState(false)
     const scanLock = useRef(false)
 
     if (!permission){
@@ -31,59 +32,16 @@ export default function HomePage(){
         )
     }
 
-    async function verifyVoucher(id: string){
-        const { data, error } = await supabase
-                .from('vouchers')
-                .select()
-                .eq("voucherid", id)
-                .limit(1)
-                .single()
-        
-        if (error){
-            Alert.alert("Voucher does not exist!")
-            return
-        }
-
-        if (data.redeemed){
-            Alert.alert("Voucher has already been redeemed!")
-            return
-        }
-
-        Alert.alert(
-            "Redeem Voucher?", 
-            undefined, 
-            [
-                { text: "Cancel", style: "cancel" },
-                { text: "Redeem", onPress: () => redeemVoucher(id) }
-            ]
-        )
-        
-    }
-
-    async function redeemVoucher(id: string){
-        const { error: updateError } = await supabase
-            .from('vouchers')
-            .update({ redeemed: true })
-            .eq('voucherid', id)
-
-        if (updateError){
-            Alert.alert("Error redeeming voucher!")
-            return
-        }
-
-        Alert.alert("Voucher Redeemed!")
-        setVoucher('')      
-    }
-
-    const handleScan = () => {
+    const handleScanClicked = () => {
         console.log("SCAN BUTTON CLICKED")
         scanLock.current = false
-        setScanned(false)
+        setOpen(true)
     }
 
     const handleRedeem = async () => {
         console.log("REDEEM BUTTON CLICKED: Voucher: ", voucher)
         verifyVoucher(voucher)
+        setVoucher('')
         
     }
 
@@ -91,28 +49,28 @@ export default function HomePage(){
         if (scanLock.current) return 
 
         scanLock.current = true
-        setScanned(true)
-        setBarcodeData(data)
+        setOpen(false)
         setVoucher(data)
 
         console.log("Barcode type:", type)
         console.log("Barcode data:", data)
 
         verifyVoucher(data)
+        setVoucher('')
     }
-
-
 
     return (
         <SafeAreaPage>
-            {!scanned && <CameraView 
-                style={{flex: 1}} 
-                facing="back" 
-                barcodeScannerSettings={{barcodeTypes: ["code128"]}} 
-                onBarcodeScanned={!scanLock.current ? handleBarcodeScanned : undefined}
+            {open && <CameraModal
+                open={open}
+                setOpen={setOpen}
+                voucher={voucher}
+                setVoucher={setVoucher}
+                scanLock={scanLock}
             />}
+            <Text style={{fontWeight: "bold", fontSize: 18, color: theme.text_primary, textAlign: "center", marginTop: 10, marginBottom: 10}}>Scan Voucher or Input Voucher ID</Text>
             <Input placeholder="Voucher ID" value={voucher} onChangeText={t => setVoucher(t)} style={{marginBottom: 15}}>
-                <Pressable onPress={handleScan}><ScanBarcode color={theme.text_primary}/></Pressable> 
+                <Pressable onPress={handleScanClicked}><ScanBarcode color={theme.text_primary}/></Pressable> 
             </Input>
             <Button onPress={handleRedeem} text="Redeem Voucher"/>
         </SafeAreaPage>
