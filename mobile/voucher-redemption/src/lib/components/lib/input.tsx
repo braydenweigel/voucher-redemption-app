@@ -17,12 +17,15 @@ export function Input({children, style, textStyle, ...props}: InputProps){
             borderRadius: 20,
             backgroundColor: theme.input,
             borderWidth: 1,
-            borderColor: theme.background_secondary
+            borderColor: theme.background_secondary,
+            flexDirection: "row",
+            alignItems: "center"
         },
         input: {
             height: 40,
             fontSize: 16,
-            color: theme.text_primary
+            color: theme.text_primary,
+            flex: 1
         }
     })
 

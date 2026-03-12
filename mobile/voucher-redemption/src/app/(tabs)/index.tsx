@@ -7,9 +7,12 @@ import { CameraView, CameraType, useCameraPermissions } from "expo-camera"
 import { supabase } from "@/lib/supabase/supabase";
 import SafeAreaPage from "@/lib/components/lib/page";
 import Button from "@/lib/components/lib/button";
+import { Input } from "@/lib/components/lib/input";
+import { useTheme } from "@/lib/hooks/use-theme-context";
 
 
 export default function HomePage(){
+    const { theme } = useTheme()
     const [voucher, setVoucher] = useState('')
     const [permission, requestPermission] = useCameraPermissions()
     const [scanned, setScanned] = useState(true)
@@ -22,9 +25,9 @@ export default function HomePage(){
 
     if (!permission.granted){
         return (
-            <SafeAreaView style={styles.page}>
-                <Pressable style={styles.button} onPress={requestPermission}><Text style={styles.buttonText}>Grant Permission</Text></Pressable>
-            </SafeAreaView>
+            <SafeAreaPage>
+                <Button onPress={requestPermission} text="Grant Permission"></Button>
+            </SafeAreaPage>
         )
     }
 
@@ -108,40 +111,10 @@ export default function HomePage(){
                 barcodeScannerSettings={{barcodeTypes: ["code128"]}} 
                 onBarcodeScanned={!scanLock.current ? handleBarcodeScanned : undefined}
             />}
-
-            <View style={styles.voucherInput}>
-                <TextInput placeholder="Voucher ID" value={voucher} onChangeText={t => setVoucher(t)}/>
-                <Pressable onPress={handleScan}><ScanBarcode color={"#000000"}/></Pressable> 
-            </View> 
+            <Input placeholder="Voucher ID" value={voucher} onChangeText={t => setVoucher(t)} style={{marginBottom: 15}}>
+                <Pressable onPress={handleScan}><ScanBarcode color={theme.text_primary}/></Pressable> 
+            </Input>
             <Button onPress={handleRedeem} text="Redeem Voucher"/>
         </SafeAreaPage>
     )
 }
-
-const styles = StyleSheet.create({
-    page: {
-        flex: 1,
-        paddingHorizontal: '5%',
-        paddingVertical: '10%',
-        
-    },
-    voucherInput: {
-        height: 40,
-        borderWidth: 1,
-        paddingHorizontal: 10,
-        marginBottom: 10,
-        flexDirection: "row",
-        justifyContent: "space-between"
-        
-    },
-    button: {
-        backgroundColor: "#000000",
-        height: 30,
-        justifyContent: "center",
-        marginTop: 15
-    },
-    buttonText: {
-        color: "#FFFFFF",
-        textAlign: "center"
-    }
-})

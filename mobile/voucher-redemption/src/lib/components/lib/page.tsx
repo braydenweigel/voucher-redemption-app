@@ -14,7 +14,8 @@ export default function SafeAreaPage({children, style, ...props}: SafeAreaPagePr
     const styles = StyleSheet.create({
         page: {
             flex: 1,
-            backgroundColor: theme.background_primary
+            backgroundColor: theme.background_primary,
+            paddingHorizontal: 15
         }
     })
 
