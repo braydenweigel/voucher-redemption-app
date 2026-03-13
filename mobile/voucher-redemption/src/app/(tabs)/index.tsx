@@ -45,20 +45,6 @@ export default function HomePage(){
         
     }
 
-    const handleBarcodeScanned = ({ type, data }: { type: string; data: string }) => {
-        if (scanLock.current) return 
-
-        scanLock.current = true
-        setOpen(false)
-        setVoucher(data)
-
-        console.log("Barcode type:", type)
-        console.log("Barcode data:", data)
-
-        verifyVoucher(data)
-        setVoucher('')
-    }
-
     return (
         <SafeAreaPage>
             {open && <CameraModal

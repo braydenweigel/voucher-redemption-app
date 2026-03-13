@@ -8,25 +8,34 @@ import { Stack } from "expo-router";
 import { Pressable, StyleSheet, Text, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { useSelector } from "react-redux";
-import { Pencil } from "lucide-react-native";
+import { Edit, Pencil } from "lucide-react-native";
 import ThemeToggle from "@/lib/components/lib/theme-toggle";
+import { useState } from "react";
+import Dialog from "@/lib/components/lib/dialog";
+import EditProfile from "@/lib/components/lib/edit-profile";
 
 
 export default function SettingsPage(){
     const { signOut } = useAuth()
     const { theme, currentTheme, setTheme } = useTheme()
     const { data, loading, error } = useSelector((state: RootState) => state.profile)
+    const [open, setOpen] = useState(false)
 
-    const handleButton = () => {
+    const handleSignOut = () => {
         console.log("SIGNING OUT")
         signOut()
+    }
+
+    const handleEditClicked = () => {
+        setOpen(true)
     }
 
 
     return (
         <SafeAreaPage>
+            {open && <EditProfile open={open} setOpen={setOpen}/>}
             <Header text="Profile">
-                <Pencil color={theme.text_primary}/>
+                <Pressable onPress={handleEditClicked}><Pencil color={theme.text_primary}/></Pressable>
             </Header>
             <View style={{}}>
                 <Text style={{color: theme.text_primary, fontSize: 20, marginBottom: 5}}>{data?.first_name} {data?.last_name}</Text>
@@ -38,7 +47,7 @@ export default function SettingsPage(){
                 <ThemeToggle/>
             </View>
             
-            <Button text="Sign Out" onPress={handleButton}/>
+            <Button text="Sign Out" onPress={handleSignOut}/>
         </SafeAreaPage>
     )
 }
