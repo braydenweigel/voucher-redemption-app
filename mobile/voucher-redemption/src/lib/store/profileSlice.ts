@@ -44,7 +44,14 @@ export const fetchProfile = createAsyncThunk('profile/fetchProfile',
 const profileSlice = createSlice({
     name: "profile",
     initialState,
-    reducers: {},
+    reducers: {
+        updateProfileName: (state, action) => {
+            if (state.data) {
+                state.data.first_name = action.payload.first_name
+                state.data.last_name = action.payload.last_name
+            }
+        }
+    },
     extraReducers: (builder) => {
         builder
             .addCase(fetchProfile.pending, (state) => {
@@ -63,3 +70,4 @@ const profileSlice = createSlice({
 })
 
 export default profileSlice.reducer
+export const { updateProfileName } = profileSlice.actions

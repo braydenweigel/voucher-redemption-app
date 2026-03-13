@@ -3,11 +3,12 @@ import Dialog from "./dialog";
 import { StyleSheet, View, Text } from "react-native";
 import Button from "./button";
 import { useState } from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "@/lib/store/store";
 import { Input, InputLabel } from "./input";
 import { Alert } from "react-native"
 import { supabase } from "@/lib/supabase/supabase";
+import { updateProfileName } from "@/lib/store/profileSlice";
 
 type EditProfileProps = {
     open: boolean
@@ -18,6 +19,7 @@ type EditProfileProps = {
 export default function EditProfile({open, setOpen}: EditProfileProps){
     const { data: user, loading, error } = useSelector((state: RootState) => state.profile)
     const { theme } = useTheme()
+    const dispatch = useDispatch()
     const [first, setFirst] = useState(user?.first_name ?? '')
     const [last, setLast] = useState(user?.last_name ?? '')
     const [email, setEmail] = useState(user?.email ?? '')
@@ -36,7 +38,7 @@ export default function EditProfile({open, setOpen}: EditProfileProps){
             return
         }
 
-        //TODO: Updata profile slice
+        dispatch(updateProfileName({first_name: data.first_name, last_name: data.last_name}))
         setOpen(false)
     }
 
