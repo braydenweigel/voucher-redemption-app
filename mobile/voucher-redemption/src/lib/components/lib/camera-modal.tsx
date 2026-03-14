@@ -5,6 +5,7 @@ import React from "react";
 import { StyleSheet, View, Modal, Text, ModalProps, Pressable } from "react-native";
 import { X } from 'lucide-react-native'
 import Dialog from "./dialog";
+import { useDispatch } from "react-redux";
 
 type CameraModalProps = {
     open: boolean
@@ -16,6 +17,7 @@ type CameraModalProps = {
 
 export default function CameraModal({ open, setOpen, voucher, setVoucher, scanLock }: CameraModalProps){
     const { theme } = useTheme()
+    const dispatch = useDispatch()
 
     const styles = StyleSheet.create({
         cameraContainer: {
@@ -45,7 +47,7 @@ export default function CameraModal({ open, setOpen, voucher, setVoucher, scanLo
             console.log("Barcode type:", type)
             console.log("Barcode data:", data)
     
-            verifyVoucher(data)
+            verifyVoucher(data, dispatch)
             setVoucher('')
         }
 

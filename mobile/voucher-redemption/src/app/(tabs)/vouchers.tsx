@@ -1,9 +1,11 @@
+import Header from "@/lib/components/lib/header";
 import SafeAreaPage from "@/lib/components/lib/page";
 import { useTheme } from "@/lib/hooks/use-theme-context";
 import { RootState } from "@/lib/store/store";
-import { StyleSheet, View, Text, FlatList } from "react-native";
+import { StyleSheet, View, Text, FlatList, Pressable } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { useSelector } from "react-redux";
+import { SlidersHorizontal } from 'lucide-react-native'
 
 function convertDate(date: Date | null){
     if (!date) return ""
@@ -20,6 +22,9 @@ export default function VouchersPage(){
 
     return (
         <SafeAreaPage>
+            <Header text="Vouchers">
+                <Pressable ><SlidersHorizontal color={theme.text_primary}/></Pressable>
+            </Header>
             <Text style={{color: theme.text_primary}}>Voucher ID    Redeemed     Redeemed At</Text>
             <FlatList
                 data={data}

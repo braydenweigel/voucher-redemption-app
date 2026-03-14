@@ -1,7 +1,10 @@
 import { Alert } from "react-native"
 import { supabase } from "../supabase/supabase"
+import { useDispatch } from "react-redux"
+import { updateVoucherRedeemed } from "../store/vouchersSlice"
+import { AppDispatch } from "../store/store"
 
-export async function verifyVoucher(id: string){
+export async function verifyVoucher(id: string, dispatch: AppDispatch){
     const { data, error } = await supabase
             .from('vouchers')
             .select()
@@ -24,22 +27,27 @@ export async function verifyVoucher(id: string){
         undefined, 
         [
             { text: "Cancel", style: "cancel" },
-            { text: "Redeem", onPress: () => redeemVoucher(id) }
+            { text: "Redeem", onPress: () => redeemVoucher(id, dispatch) }
         ]
     )
     
 }
 
-export async function redeemVoucher(id: string){
-    const { error: updateError } = await supabase
+export async function redeemVoucher(id: string, dispatch: AppDispatch){    
+    const { data, error: updateError } = await supabase
         .from('vouchers')
         .update({ redeemed: true })
         .eq('voucherid', id)
+        .select()
+        .single()
 
     if (updateError){
         Alert.alert("Error redeeming voucher!")
         return
     }
+
+    //update voucher in Redux here
+    dispatch(updateVoucherRedeemed({id: data.voucherid, redeemedat: data.redeemedat}))
 
     Alert.alert("Voucher Redeemed!")     
 }

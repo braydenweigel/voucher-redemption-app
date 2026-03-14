@@ -11,10 +11,12 @@ import { Input } from "@/lib/components/lib/input";
 import { useTheme } from "@/lib/hooks/use-theme-context";
 import { verifyVoucher } from "@/lib/utils/vouchers";
 import CameraModal from "@/lib/components/lib/camera-modal";
+import { useDispatch } from "react-redux";
 
 
 export default function HomePage(){
     const { theme } = useTheme()
+    const dispatch = useDispatch()
     const [voucher, setVoucher] = useState('')
     const [permission, requestPermission] = useCameraPermissions()
     const [open, setOpen] = useState(false)
@@ -40,7 +42,7 @@ export default function HomePage(){
 
     const handleRedeem = async () => {
         console.log("REDEEM BUTTON CLICKED: Voucher: ", voucher)
-        verifyVoucher(voucher)
+        verifyVoucher(voucher, dispatch)
         setVoucher('')
         
     }

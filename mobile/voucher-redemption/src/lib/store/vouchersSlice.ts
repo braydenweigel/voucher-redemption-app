@@ -2,6 +2,7 @@ import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import { RootState } from "./store";
 import { supabase } from "../supabase/supabase";
 
+
 export interface Voucher {
     voucherid: string
     registered: boolean
@@ -38,7 +39,19 @@ export const fetchVouchers = createAsyncThunk('vouchers/fetchVouchers',
 const vouchersSlice = createSlice({
     name: "vouchers",
     initialState,
-    reducers: {},
+    reducers: {
+        updateVoucherRedeemed: (state, action) => {
+            console.log("Updating voucher:", action.payload)
+            if (!state.data) return
+
+            const voucher = state.data.find(v => v.voucherid === action.payload.id)
+
+            if (voucher) {
+                voucher.redeemed = true
+                voucher.redeemedat = action.payload.redeemedat
+            }
+        }
+    },
     extraReducers: (builder) => {
         builder
             .addCase(fetchVouchers.pending, (state) => {
@@ -58,3 +71,4 @@ const vouchersSlice = createSlice({
 })
 
 export default vouchersSlice.reducer
+export const { updateVoucherRedeemed } = vouchersSlice.actions
