@@ -17,7 +17,9 @@ export default function Button({text, children, style, textStyle, ...props}: But
             backgroundColor: theme.accent_primary,
             height: 40,
             borderRadius: 20,
-            justifyContent: "center"
+            justifyContent: "center",
+            borderWidth: 1,
+            borderColor: theme.accent_secondary
         },
         buttonText: {
             color: theme.text_accent,

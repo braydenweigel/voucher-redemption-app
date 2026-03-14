@@ -78,7 +78,8 @@ function getStyles(theme: Theme){
         },
         cancel: {
             paddingHorizontal: 12,
-            backgroundColor: "#EF4444"
+            backgroundColor: "#EF4444",
+            borderColor: "#eb1414"
         },
         save: {
             paddingHorizontal: 12,
