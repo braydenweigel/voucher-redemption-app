@@ -5,8 +5,11 @@ import { RootState } from "@/lib/store/store";
 import { StyleSheet, View, Text, FlatList, Pressable } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { useSelector } from "react-redux";
-import { SlidersHorizontal, CircleX, CircleCheck } from 'lucide-react-native'
+import { SlidersHorizontal, CircleX, CircleCheck, Search } from 'lucide-react-native'
 import { Voucher } from "@/lib/store/vouchersSlice";
+import { useMemo, useState } from "react";
+import { filterVouchers, initialFilter, VoucherFilters } from "@/lib/utils/filters";
+import { Input } from "@/lib/components/lib/input";
 
 function convertDate(date: Date | null){
     if (!date) return ""
@@ -23,23 +26,43 @@ function convertDate(date: Date | null){
 export default function VouchersPage(){
     const { theme } = useTheme()
     const { data, loading, error } = useSelector((state: RootState) => state.vouchers)
+    const [filter, setFilter] = useState<VoucherFilters>(structuredClone(initialFilter))
 
     const styles = getStyles(theme)
 
-    const sorted = [...data].sort((a, b) => (a.voucherid < b.voucherid ? -1 : 1))
+    const sortedData = [...data].sort((a, b) => (a.voucherid < b.voucherid ? -1 : 1))
+
+    const displayVouchers = useMemo(() => {
+        if (!sortedData) return []
+        return filterVouchers(sortedData, filter)
+    }, [sortedData, filter])
+
 
     return (
         <SafeAreaPage>
             <Header text="Vouchers">
                 <Pressable ><SlidersHorizontal color={theme.text_primary}/></Pressable>
             </Header>
+            <Input onChangeText={(s) => {
+                    setFilter(filter => ({
+                        ...filter,
+                        id: s
+                    }))
+                }
+                }
+                style={styles.input}
+                placeholder="Search by Voucher ID"
+                
+            >
+                <Search color={theme.text_muted}/>
+            </Input>
             <View style={styles.tableHead}>
                 <Text style={{color: theme.text_primary, flex: 0.3, fontSize: 16, fontWeight: 500}}>Voucher ID</Text>
                 <Text style={{color: theme.text_primary, flex: 0.4, textAlign: "center", fontSize: 16, fontWeight: 500}}>Redeemed</Text>
                 <Text style={{color: theme.text_primary, flex: 0.3, textAlign: "right", fontSize: 16, fontWeight: 500}}>Redeemed At</Text>
             </View>
             <FlatList
-                data={sorted}
+                data={displayVouchers}
                 renderItem={({item}) => <VoucherRow v={item}/>}
                 keyExtractor={item => item.voucherid}
                 style={{marginBottom: 50}}
@@ -72,7 +95,7 @@ function getStyles(theme: Theme){
             flexDirection: "row",
             width: "100%",
             paddingBottom: 5,
-            borderBottomWidth: 2,
+            borderBottomWidth: 1,
             borderColor: theme.accent_primary
         },
         tableRow: {
@@ -82,6 +105,9 @@ function getStyles(theme: Theme){
             paddingVertical: 10,
             borderBottomWidth: 1,
             borderColor: theme.accent_primary
+        },
+        input: {
+            marginBottom: 10
         }
     })
 }
