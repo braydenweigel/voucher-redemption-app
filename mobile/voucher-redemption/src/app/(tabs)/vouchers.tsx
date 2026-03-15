@@ -10,6 +10,7 @@ import { Voucher } from "@/lib/store/vouchersSlice";
 import { useMemo, useState } from "react";
 import { filterVouchers, initialFilter, VoucherFilters } from "@/lib/utils/filters";
 import { Input } from "@/lib/components/lib/input";
+import FilterDialog from "@/lib/components/lib/filter-dialog";
 
 function convertDate(date: Date | null){
     if (!date) return ""
@@ -27,6 +28,7 @@ export default function VouchersPage(){
     const { theme } = useTheme()
     const { data, loading, error } = useSelector((state: RootState) => state.vouchers)
     const [filter, setFilter] = useState<VoucherFilters>(structuredClone(initialFilter))
+    const [open, setOpen] = useState(false)
 
     const styles = getStyles(theme)
 
@@ -37,11 +39,16 @@ export default function VouchersPage(){
         return filterVouchers(sortedData, filter)
     }, [sortedData, filter])
 
+    const handleFilterClicked = () => {
+        setOpen(true)
+    }
+
 
     return (
         <SafeAreaPage>
+            {open && <FilterDialog open={open} setOpen={setOpen} filter={filter} setFilter={setFilter}/>}
             <Header text="Vouchers">
-                <Pressable ><SlidersHorizontal color={theme.text_primary}/></Pressable>
+                <Pressable onPress={handleFilterClicked}><SlidersHorizontal color={theme.text_primary}/></Pressable>
             </Header>
             <Input onChangeText={(s) => {
                     setFilter(filter => ({
