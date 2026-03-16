@@ -5,7 +5,7 @@ import { RootState } from "@/lib/store/store";
 import { StyleSheet, View, Text, FlatList, Pressable } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { useSelector } from "react-redux";
-import { SlidersHorizontal, CircleX, CircleCheck, Search } from 'lucide-react-native'
+import { SlidersHorizontal, CircleX, CircleCheck, Search, CircleMinus } from 'lucide-react-native'
 import { Voucher } from "@/lib/store/vouchersSlice";
 import { useMemo, useState } from "react";
 import { filterVouchers, initialFilter, VoucherFilters } from "@/lib/utils/filters";
@@ -58,6 +58,7 @@ export default function VouchersPage(){
                 }
                 }
                 style={styles.input}
+                value={filter.id}
                 placeholder="Search by Voucher ID"
                 
             >
@@ -89,7 +90,7 @@ function VoucherRow({v}: VoucherRowProps){
     return (
         <View style={styles.tableRow}>
             <Text style={{color: theme.text_primary, flex: 0.45, fontSize: 18}}>{v.voucherid}</Text>
-            <View style={{flex: 0.25, alignSelf: "center",}}>{v.redeemed ? <CircleCheck color="#44ef63"/> : <CircleX color="#EF4444"/>}</View>
+            <View style={{flex: 0.25, alignSelf: "center",}}>{v.redeemed ? <CircleCheck color="#44ef63"/> : <CircleMinus color={theme.text_muted}/>}</View>
             <Text style={{color: theme.text_primary, flex: 0.3, textAlign: "center", fontSize: 14}}>{v.redeemed ? convertDate(v.redeemedat) : null}</Text>
         </View>
     )

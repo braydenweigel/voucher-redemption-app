@@ -2,22 +2,34 @@ import { Voucher } from "../store/vouchersSlice";
 
 export interface VoucherFilters {
     id: string
-    redeemed: boolean | undefined
-    redeemedAt: {
-        from: Date | undefined
-        to: Date | undefined
+    redeemed: boolean
+    redeemedDay: {
+        from: Date
+        to: Date 
     }
+    unredeemed: boolean
     batch: Set<string>
+    revoked: boolean | undefined
+    revokedDay: {
+        from: Date
+        to: Date 
+    }
 }
 
 export const initialFilter: VoucherFilters = {
     id: "",
-    redeemed: undefined,
-    redeemedAt: {
-        from: undefined,
-        to: undefined
+    redeemed: false,
+    redeemedDay: {
+        from: new Date(2026, 3, 1),
+        to: new Date(new Date().setHours(24, 0, 0, 0))
     },
-    batch: new Set<string>()
+    unredeemed: false,
+    batch: new Set<string>(),
+    revoked: undefined,
+    revokedDay: {
+        from: new Date(2026, 3, 1),
+        to: new Date(new Date().setHours(24, 0, 0, 0))
+    },
 }
 
 export const Batches: string[] = [
@@ -34,6 +46,13 @@ export function filterVouchers(vouchers: Voucher[], filters: VoucherFilters){
             if(!voucherID.includes(filterString)) return false
         }
 
+        if (filters.redeemed || filters.unredeemed){//only filter by redemption status if at least one box is checked. If both are checked, no redemption status filters will be applied
+            if (filters.redeemed && !filters.unredeemed){//redeemed vouchers only
+                if (!voucher.redeemed) return false
+            } else if (!filters.redeemed && filters.unredeemed){//unredeemed vouchers only
+                if (voucher.redeemed) return false
+            }
+        }
 
 
         return true //if voucher passes all filters

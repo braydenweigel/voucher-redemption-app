@@ -10,6 +10,7 @@ import { Alert } from "react-native"
 import { supabase } from "@/lib/supabase/supabase";
 import { updateProfileName } from "@/lib/store/profileSlice";
 import { initialFilter, VoucherFilters } from "@/lib/utils/filters";
+import Checkbox from "./checkbox";
 
 type FilterDialogProps = {
     open: boolean
@@ -21,6 +22,7 @@ type FilterDialogProps = {
 
 export default function FilterDialog({open, setOpen, filter, setFilter}: FilterDialogProps){
     const { theme } = useTheme()
+    const [checked, setChecked] = useState(false)
     
 
     const styles = getStyles(theme)
@@ -35,6 +37,18 @@ export default function FilterDialog({open, setOpen, filter, setFilter}: FilterD
         <Dialog open={open} setOpen={setOpen} style={{position: "absolute", top: 80, alignSelf: "center"}}>
             <Text style={styles.header}>Filter Vouchers</Text>
             <View style={styles.content}>
+                <View style={{flexDirection: "row", alignItems: "center"}}>
+                    <Text style={{color: theme.text_primary, fontSize: 18, fontWeight: 500, marginHorizontal: 10}}>Redeemed</Text>
+                    <Checkbox 
+                        checked={filter.redeemed} 
+                        setChecked={() => {
+                            setFilter(filter => ({
+                                ...filter,
+                                redeemed: !filter.redeemed
+                            }))
+                        }}
+                    />
+                </View>
                 
             </View>
 
