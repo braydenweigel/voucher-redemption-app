@@ -20,14 +20,14 @@ export const initialFilter: VoucherFilters = {
     id: "",
     redeemed: false,
     redeemedDay: {
-        from: new Date(2026, 3, 1),
+        from: new Date(2026, 2, 1),
         to: new Date(new Date().setHours(24, 0, 0, 0))
     },
     unredeemed: false,
     batch: new Set<string>(),
     revoked: undefined,
     revokedDay: {
-        from: new Date(2026, 3, 1),
+        from: new Date(2026, 2, 1),
         to: new Date(new Date().setHours(24, 0, 0, 0))
     },
 }
@@ -53,6 +53,14 @@ export function filterVouchers(vouchers: Voucher[], filters: VoucherFilters){
                 if (voucher.redeemed) return false
             }
         }
+
+        //Filter by Redeemed Date
+        if (voucher.redeemedat){
+            const redeemedDate = new Date(voucher.redeemedat)
+            if (filters.redeemedDay.from > redeemedDate) return false
+            if (filters.redeemedDay.to < redeemedDate) return false
+        }
+        
 
 
         return true //if voucher passes all filters

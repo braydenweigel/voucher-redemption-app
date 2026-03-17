@@ -20,7 +20,7 @@ export default function Checkbox({checked, setChecked, style, ...props}: Checkbo
 
     return (
         <Pressable style={[styles.box, (checked ? styles.checked : styles.unchecked), style]} onPress={handleClick} {...props}> 
-            {checked ? <Check color={theme.text_primary} size={20}/> : null}
+            {checked ? <Check color={"#fafaf9"} size={20}/> : null}
         </Pressable>
     )
 }
