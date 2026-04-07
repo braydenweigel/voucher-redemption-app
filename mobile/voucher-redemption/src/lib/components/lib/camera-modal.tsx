@@ -60,7 +60,7 @@ export default function CameraModal({ open, setOpen, voucher, setVoucher, scanLo
             
 
         >
-            <Dialog open={open} setOpen={setOpen} style={{height: 360}}>
+            <Dialog open={open} setOpen={setOpen} style={{height: 600, position: "absolute", alignSelf: "center", top: 100}}>
                 <View style={styles.cameraContainer}>
                     <CameraView 
                         style={styles.camera} 
