@@ -57,27 +57,27 @@ export function ThemeProvider({ children }: PropsWithChildren){
 const dark: Theme = {
     name: "dark",
     status_bar: "light",
-    background_primary: "#0c0a09",
-    background_secondary: "#292524",
-    accent_primary: "#78716c",
-    accent_secondary: "#57524e",
-    text_primary: "#fafaf9",
-    text_secondary: "#e7e5e4",
-    text_muted: "#78716c",
-    text_accent: "#fafaf9",
-    input: "#1c1917"
+    background_primary: "#0c090c",
+    background_secondary: "#2a212c",
+    accent_primary: "#79697b",
+    accent_secondary: "#594c5b",
+    text_primary: "#fafafa",
+    text_secondary: "#e7e4e7",
+    text_muted: "#79697b",
+    text_accent: "#fafafa",
+    input: "#1d161e"
 }
 
 const light: Theme = {
     name: "light",
     status_bar: "dark",
-    background_primary: "#fafaf9",
-    background_secondary: "#e7e5e4",
-    accent_primary: "#57524e",
-    accent_secondary: "#78716c",
-    text_primary: "#0c0a09",
-    text_secondary: "#292524",
-    text_muted: "#57524e",
-    text_accent: "#fafaf9",
-    input: "#f5f5f4"
+    background_primary: "#fafafa",
+    background_secondary: "#e7e4e7",
+    accent_primary: "#594c5b",
+    accent_secondary: "#79697b",
+    text_primary: "#0c090c",
+    text_secondary: "#2a212c",
+    text_muted: "#594c5b",
+    text_accent: "#fafafa",
+    input: "#f3f1f3"
 }
