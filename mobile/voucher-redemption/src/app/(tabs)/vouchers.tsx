@@ -4,7 +4,7 @@ import { Theme, useTheme } from "@/lib/hooks/use-theme-context";
 import { RootState } from "@/lib/store/store";
 import { StyleSheet, View, Text, FlatList, Pressable, Alert } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
-import { SlidersHorizontal, CircleX, CircleCheck, Search, CircleMinus, EllipsisVertical } from 'lucide-react-native'
+import { SlidersHorizontal, CircleX, CircleCheck, Search, CircleMinus, EllipsisVertical, ArrowDownUp } from 'lucide-react-native'
 import { Voucher } from "@/lib/store/vouchersSlice";
 import { useMemo, useRef, useState } from "react";
 import { filterVouchers, initialFilter, VoucherFilters } from "@/lib/utils/filters";
@@ -35,21 +35,74 @@ export default function VouchersPage(){
     const { theme } = useTheme()
     const { data, loading, error } = useSelector((state: RootState) => state.vouchers)
     const [filter, setFilter] = useState<VoucherFilters>(structuredClone(initialFilter))
+    const [sort, setSort] = useState<"ID-ASC" | "ID-DESC" | "DATE-ASC" | "DATE-DESC">("ID-ASC")
     const [open, setOpen] = useState(false)
     const openRowRef = useRef<SwipeRow<any> | null>(null)
 
     const styles = getStyles(theme)
 
-    const sortedData = [...data].sort((a, b) => (a.voucherid < b.voucherid ? -1 : 1))
-
-    const displayVouchers = useMemo(() => {
-        if (!sortedData) return []
-        return filterVouchers(sortedData, filter)
-    }, [sortedData, filter])
-
     const handleFilterClicked = () => {
         setOpen(true)
     }
+
+    const handleSort = (type: string) => {
+        if (type === "ID"){
+            if (sort === "ID-ASC"){//sort by ID in descending order
+                setSort("ID-DESC")
+            } else {//sort ID in ascending order
+                setSort("ID-ASC")
+            }
+        } else {
+            if (sort === "DATE-DESC"){//sort by date in ascending order (oldest first)
+                setSort("DATE-ASC")
+
+            } else {//sort by data in descending order
+                setSort("DATE-DESC")
+
+            }
+        }
+    }
+
+    const displayVouchers = useMemo(() => {
+        if (!data) return []
+        let vouchers = [...data]
+
+        if (sort === "ID-ASC"){
+            vouchers.sort((a, b) => (a.voucherid < b.voucherid ? -1 : 1))
+        } else if (sort === "ID-DESC"){
+            vouchers.sort((a, b) => (a.voucherid > b.voucherid ? -1 : 1))
+        } else if (sort === "DATE-ASC"){
+            vouchers.sort((a,b) => {
+               const rawDateA = a.redeemedat ?? a.revokedat
+                const rawDateB = b.redeemedat ?? b.revokedat
+
+                const dateA = rawDateA ? new Date(rawDateA) : null
+                const dateB = rawDateB ? new Date(rawDateB) : null
+
+                if (!dateA && !dateB) return 0
+                if (!dateA) return 1   
+                if (!dateB) return -1 
+
+                return dateA.getTime() - dateB.getTime()
+            })
+        } else {
+            vouchers.sort((a,b) => {
+               const rawDateA = a.redeemedat ?? a.revokedat
+                const rawDateB = b.redeemedat ?? b.revokedat
+
+                const dateA = rawDateA ? new Date(rawDateA) : null
+                const dateB = rawDateB ? new Date(rawDateB) : null
+
+                if (!dateA && !dateB) return 0
+                if (!dateA) return 1   
+                if (!dateB) return -1 
+
+                return dateB.getTime() - dateA.getTime()
+            })
+        }
+
+        return filterVouchers(vouchers, filter)
+    }, [data, sort, filter])
 
 
     return (
@@ -73,8 +126,15 @@ export default function VouchersPage(){
                 <Search color={theme.text_muted}/>
             </Input>
             <View style={styles.tableHead}>
-                <Text style={{color: theme.text_primary, flex: 0.3, fontSize: 16, fontWeight: 500}}>Voucher ID</Text>
-                <Text style={{color: theme.text_primary, flex: 0.4, textAlign: "center", fontSize: 16, fontWeight: 500}}>Status</Text>
+                <Pressable style={{flex: 0.4, flexDirection: "row", justifyContent: "flex-start"}} onPress={() => handleSort("ID")}>
+                    <Text style={{color: theme.text_primary, fontSize: 18, fontWeight: 500}}>Voucher ID</Text>
+                    <ArrowDownUp color={theme.text_primary} style={{marginLeft: 6}}/>
+                </Pressable>
+                <Text style={{color: theme.text_primary, flex: 0.3, textAlign: "center", fontSize: 18, fontWeight: 500}}>Status</Text>
+                <Pressable style={{flex: 0.3, flexDirection: "row", justifyContent: "flex-end"}} onPress={() => handleSort("DATE")}>
+                    <Text style={{color: theme.text_primary, fontSize: 18, fontWeight: 500}}>Date</Text>
+                    <ArrowDownUp color={theme.text_primary} style={{marginLeft: 6}}/>
+                </Pressable>
             </View>
             <SwipeListView
                 data={displayVouchers}
@@ -195,7 +255,10 @@ function getStyles(theme: Theme){
             width: "100%",
             paddingBottom: 5,
             borderBottomWidth: 1,
-            borderColor: theme.accent_primary
+            borderColor: theme.accent_primary,
+            justifyContent: "space-between",
+            height: 40,
+            alignItems: "center"
         },
         tableRow: {
             flexDirection: "row",
