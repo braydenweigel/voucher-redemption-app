@@ -2,15 +2,16 @@ import Header from "@/lib/components/lib/header";
 import SafeAreaPage from "@/lib/components/lib/page";
 import { Theme, useTheme } from "@/lib/hooks/use-theme-context";
 import { RootState } from "@/lib/store/store";
-import { StyleSheet, View, Text, FlatList, Pressable } from "react-native";
-import { SafeAreaView } from "react-native-safe-area-context";
-import { useSelector } from "react-redux";
-import { SlidersHorizontal, CircleX, CircleCheck, Search, CircleMinus } from 'lucide-react-native'
+import { StyleSheet, View, Text, FlatList, Pressable, Alert } from "react-native";
+import { useDispatch, useSelector } from "react-redux";
+import { SlidersHorizontal, CircleX, CircleCheck, Search, CircleMinus, EllipsisVertical } from 'lucide-react-native'
 import { Voucher } from "@/lib/store/vouchersSlice";
-import { useMemo, useState } from "react";
+import { useMemo, useRef, useState } from "react";
 import { filterVouchers, initialFilter, VoucherFilters } from "@/lib/utils/filters";
 import { Input } from "@/lib/components/lib/input";
 import FilterDialog from "@/lib/components/lib/filter-dialog";
+import { reissueVoucher, revokeVoucher } from "@/lib/utils/vouchers";
+import { SwipeListView, SwipeRow } from "react-native-swipe-list-view";
 
 function convertDate(date: Date | null){
     if (!date) return ""
@@ -24,11 +25,18 @@ function convertDate(date: Date | null){
     })
 }
 
+function getVoucherAction(voucher: Voucher) {
+  if (voucher.redeemed) return null
+  if (voucher.revoked) return "reissue"
+  return "revoke"
+}
+
 export default function VouchersPage(){
     const { theme } = useTheme()
     const { data, loading, error } = useSelector((state: RootState) => state.vouchers)
     const [filter, setFilter] = useState<VoucherFilters>(structuredClone(initialFilter))
     const [open, setOpen] = useState(false)
+    const openRowRef = useRef<SwipeRow<any> | null>(null)
 
     const styles = getStyles(theme)
 
@@ -66,14 +74,17 @@ export default function VouchersPage(){
             </Input>
             <View style={styles.tableHead}>
                 <Text style={{color: theme.text_primary, flex: 0.3, fontSize: 16, fontWeight: 500}}>Voucher ID</Text>
-                <Text style={{color: theme.text_primary, flex: 0.4, textAlign: "center", fontSize: 16, fontWeight: 500}}>Redeemed</Text>
-                <Text style={{color: theme.text_primary, flex: 0.3, textAlign: "right", fontSize: 16, fontWeight: 500}}>Redeemed At</Text>
+                <Text style={{color: theme.text_primary, flex: 0.4, textAlign: "center", fontSize: 16, fontWeight: 500}}>Status</Text>
             </View>
-            <FlatList
+            <SwipeListView
                 data={displayVouchers}
-                renderItem={({item}) => <VoucherRow v={item}/>}
+                renderItem={({item}) => <VoucherRow v={item} openRowRef={openRowRef}/>}
                 keyExtractor={item => item.voucherid}
                 style={{marginBottom: 50}}
+                onScrollBeginDrag={() => {
+                    openRowRef.current?.closeRow()
+                    openRowRef.current = null
+                }}
             />
         </SafeAreaPage>
     )
@@ -81,18 +92,98 @@ export default function VouchersPage(){
 
 type VoucherRowProps = {
     v: Voucher
+    openRowRef: React.MutableRefObject<SwipeRow<any> | null>
+    
 }
 
-function VoucherRow({v}: VoucherRowProps){
+function VoucherRow({v, openRowRef}: VoucherRowProps){
     const { theme } = useTheme()
     const styles = getStyles(theme)
+    const rowRef = useRef<SwipeRow<any>>(null)
+
+    const handleRowOpen = () => {
+        if (
+            openRowRef.current &&
+            openRowRef.current !== rowRef.current
+        ) {
+            openRowRef.current.closeRow()
+        }
+
+        openRowRef.current = rowRef.current
+    }
+
     
+    const SwipeRowAny = SwipeRow as any
+
     return (
-        <View style={styles.tableRow}>
-            <Text style={{color: theme.text_primary, flex: 0.45, fontSize: 18}}>{v.voucherid}</Text>
-            <View style={{flex: 0.25, alignSelf: "center",}}>{v.redeemed ? <CircleCheck color="#44ef63"/> : <CircleMinus color={theme.text_muted}/>}</View>
-            <Text style={{color: theme.text_primary, flex: 0.3, textAlign: "center", fontSize: 14}}>{v.redeemed ? convertDate(v.redeemedat) : null}</Text>
-        </View>
+        <SwipeRowAny
+            disableRightSwipe
+            disableLeftSwipe={v.redeemed}
+            closeOnRowPress={true}
+            rightOpenValue={-90}
+            ref={rowRef}
+            onRowOpen={handleRowOpen}
+            onRowClose={() => {
+                if (openRowRef.current === rowRef.current) {
+                    openRowRef.current = null
+                }
+            }}
+        >
+            <View key="actions"><SwipeAction v={v} rowRef={rowRef}/></View>
+            <View key="row" style={styles.tableRow}>
+                <Text style={{color: theme.text_primary, flex: 0.45, fontSize: 18}}>{v.voucherid}</Text>
+                <View style={{flex: 0.25, alignSelf: "center",}}>{v.redeemed ? <CircleCheck color="#44ef63"/> : (v.revoked ? <CircleX color="#EF4444"/> : <CircleMinus color={theme.text_muted}/>)}</View>
+                <Text style={{color: theme.text_primary, flex: 0.3, textAlign: "center", fontSize: 14}}>{v.redeemed ? convertDate(v.redeemedat) : (v.revoked ? convertDate(v.revokedat) : null)}</Text>
+            </View>
+        </SwipeRowAny>
+    )
+}
+
+type SwipeActionProps = {
+    v: Voucher
+    rowRef: React.RefObject<SwipeRow<any> | null>
+}
+
+function SwipeAction({v, rowRef}: SwipeActionProps){
+    const dispatch = useDispatch()
+    const { theme } = useTheme()
+    const styles = getStyles(theme)
+    const action = getVoucherAction(v)
+    if (!action) return null
+
+    const revokable = action === "revoke"
+
+    const handlePress = () => {
+        if (revokable){
+            Alert.alert(
+                "Revoke Voucher?", 
+                "Voucher will no longer be redeemable.", 
+                [{ text: "Cancel", style: "cancel" }, { text: "Revoke", 
+                    onPress: () => {
+                        revokeVoucher(v.voucherid, dispatch)
+                        rowRef.current?.closeRow()
+                    } }]
+            )
+        } else {
+            Alert.alert(
+                "Reissue Voucher?", 
+                "Voucher will become redeemable.", 
+                [{ text: "Cancel", style: "cancel" }, { text: "Reissue", 
+                    onPress: () => {
+                        reissueVoucher(v.voucherid, dispatch)
+                        rowRef.current?.closeRow()
+                    } }]
+            )
+        }
+    }
+
+    return (
+        <Pressable
+            onPress={handlePress}
+            style={[styles.swipe, {backgroundColor: revokable ? "#EF4444" : theme.accent_primary}]}
+        >
+            <Text style={{color: theme.text_accent, fontSize: 14}}>{revokable ? "Revoke" : "Reissue"}</Text>
+        </Pressable>
     )
 }
 
@@ -112,10 +203,21 @@ function getStyles(theme: Theme){
             alignItems: "center",
             paddingVertical: 10,
             borderBottomWidth: 1,
-            borderColor: theme.accent_primary
+            borderColor: theme.accent_primary,
+            height: 40,
+            backgroundColor: theme.background_primary
         },
         input: {
             marginBottom: 10
+        },
+        swipe: {
+            height: 40,
+            alignItems: "center",
+            justifyContent: "center",
+            paddingHorizontal: 10,
+            width: 90,
+            position: "absolute",
+            right: 0
         }
     })
 }

@@ -8,6 +8,8 @@ export interface Voucher {
     registered: boolean
     redeemed: boolean
     redeemedat: Date | null
+    revoked: boolean
+    revokedat: Date | null
     batch: string
 }
 
@@ -50,7 +52,29 @@ const vouchersSlice = createSlice({
                 voucher.redeemed = true
                 voucher.redeemedat = action.payload.redeemedat
             }
-        }
+        },
+        updateVoucherRevoked: (state, action) => {
+            console.log("Updating voucher:", action.payload)
+            if (!state.data) return
+
+            const voucher = state.data.find(v => v.voucherid === action.payload.id)
+
+            if (voucher) {
+                voucher.revoked = true
+                voucher.revokedat = action.payload.revokedat
+            }
+        },
+        updateVoucherReissued: (state, action) => {
+            console.log("Updating voucher:", action.payload)
+            if (!state.data) return
+
+            const voucher = state.data.find(v => v.voucherid === action.payload.id)
+
+            if (voucher) {
+                voucher.revoked = false
+                voucher.revokedat = null
+            }
+        },
     },
     extraReducers: (builder) => {
         builder
@@ -71,4 +95,4 @@ const vouchersSlice = createSlice({
 })
 
 export default vouchersSlice.reducer
-export const { updateVoucherRedeemed } = vouchersSlice.actions
+export const { updateVoucherRedeemed, updateVoucherReissued, updateVoucherRevoked } = vouchersSlice.actions

@@ -1,7 +1,7 @@
 import { Alert } from "react-native"
 import { supabase } from "../supabase/supabase"
 import { useDispatch } from "react-redux"
-import { updateVoucherRedeemed } from "../store/vouchersSlice"
+import { updateVoucherRedeemed, updateVoucherReissued, updateVoucherRevoked } from "../store/vouchersSlice"
 import { AppDispatch } from "../store/store"
 
 export async function verifyVoucher(id: string, dispatch: AppDispatch){
@@ -50,4 +50,42 @@ export async function redeemVoucher(id: string, dispatch: AppDispatch){
     dispatch(updateVoucherRedeemed({id: data.voucherid, redeemedat: data.redeemedat}))
 
     Alert.alert("Voucher Redeemed!")     
+}
+
+export async function revokeVoucher(id: string, dispatch: AppDispatch){    
+    const { data, error: updateError } = await supabase
+        .from('vouchers')
+        .update({ revoked: true })
+        .eq('voucherid', id)
+        .select()
+        .single()
+
+    if (updateError){
+        Alert.alert("Error revoking voucher!")
+        return
+    }
+
+    //update voucher in Redux here
+    dispatch(updateVoucherRevoked({id: data.voucherid, revokedat: data.revokedat}))
+
+    Alert.alert("Voucher Revoked!")     
+}
+
+export async function reissueVoucher(id: string, dispatch: AppDispatch){    
+    const { data, error: updateError } = await supabase
+        .from('vouchers')
+        .update({ revoked: false })
+        .eq('voucherid', id)
+        .select()
+        .single()
+
+    if (updateError){
+        Alert.alert("Error reissuing voucher!")
+        return
+    }
+
+    //update voucher in Redux here
+    dispatch(updateVoucherReissued({id: data.voucherid}))
+
+    Alert.alert("Voucher Reissued!")     
 }
