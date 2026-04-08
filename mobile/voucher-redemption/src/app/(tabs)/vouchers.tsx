@@ -80,7 +80,7 @@ export default function VouchersPage(){
                 data={displayVouchers}
                 renderItem={({item}) => <VoucherRow v={item} openRowRef={openRowRef}/>}
                 keyExtractor={item => item.voucherid}
-                style={{marginBottom: 50}}
+                style={{marginBottom: 60}}
                 onScrollBeginDrag={() => {
                     openRowRef.current?.closeRow()
                     openRowRef.current = null

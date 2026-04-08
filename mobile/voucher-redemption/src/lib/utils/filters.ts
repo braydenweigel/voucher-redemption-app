@@ -9,7 +9,7 @@ export interface VoucherFilters {
     }
     unredeemed: boolean
     batch: Set<string>
-    revoked: boolean | undefined
+    revoked: boolean
     revokedDay: {
         from: Date
         to: Date 
@@ -25,7 +25,7 @@ export const initialFilter: VoucherFilters = {
     },
     unredeemed: false,
     batch: new Set<string>(),
-    revoked: undefined,
+    revoked: false,
     revokedDay: {
         from: new Date(2026, 2, 1),
         to: new Date(new Date().setHours(24, 0, 0, 0))
@@ -38,6 +38,11 @@ export const Batches: string[] = [
 ]
 
 export function filterVouchers(vouchers: Voucher[], filters: VoucherFilters){
+    const statuses = new Set()
+    if (filters.redeemed) statuses.add("Redeemed")
+    if (filters.unredeemed) statuses.add("Unredeemed")
+    if (filters.revoked) statuses.add("Revoked")
+
     return vouchers.filter(voucher => {
         //Filter by Voucher ID
         if (filters.id && filters.id.length > 0){
@@ -46,12 +51,14 @@ export function filterVouchers(vouchers: Voucher[], filters: VoucherFilters){
             if(!voucherID.includes(filterString)) return false
         }
 
-        if (filters.redeemed || filters.unredeemed){//only filter by redemption status if at least one box is checked. If both are checked, no redemption status filters will be applied
-            if (filters.redeemed && !filters.unredeemed){//redeemed vouchers only
-                if (!voucher.redeemed) return false
-            } else if (!filters.redeemed && filters.unredeemed){//unredeemed vouchers only
-                if (voucher.redeemed) return false
-            }
+        if (filters.redeemed || filters.unredeemed || filters.revoked){//only filter by redemption status if at least one box is checked. If both are checked, no redemption status filters will be applied
+            let status = ""
+            if (voucher.redeemed) status = "Redeemed"
+            else if (voucher.revoked) status = "Revoked"
+            else status = "Unredeemed"
+
+            if (!statuses.has(status)) return false
+
         }
 
         //Filter by Redeemed Date

@@ -75,18 +75,43 @@ export default function FilterDialog({open, setOpen, filter, setFilter}: FilterD
                     />
                 </View>
                 {filter.redeemed ? 
-                        <View style={{marginBottom: 10}}>
-                            <View style={{marginBottom: 10, marginHorizontal: 20}}> 
-                                <Text style={{color: theme.text_primary, fontSize: 18, fontWeight: 500, marginBottom: 5}}>From</Text>
-                                <DateTimePicker mode="datetime" value={filter.redeemedDay.from} minimumDate={minDate} maximumDate={maxDate} themeVariant={theme.name} onChange={updateMin}/>
-                            </View>
-                            <View style={{marginBottom: 10, marginHorizontal: 20}}> 
-                                <Text style={{color: theme.text_primary, fontSize: 18, fontWeight: 500, marginBottom: 5}}>To</Text>
-                                <DateTimePicker mode="datetime" value={filter.redeemedDay.to} minimumDate={minDate} maximumDate={maxDate} themeVariant={theme.name} onChange={updateMax}/>
-                            </View>
+                    <View style={{marginBottom: 10}}>
+                        <View style={{marginBottom: 10, marginHorizontal: 20}}> 
+                            <Text style={{color: theme.text_primary, fontSize: 18, fontWeight: 500, marginBottom: 5}}>From</Text>
+                            <DateTimePicker mode="datetime" value={filter.redeemedDay.from} minimumDate={minDate} maximumDate={maxDate} themeVariant={theme.name} onChange={updateMin}/>
                         </View>
-                        : null
-                    }
+                        <View style={{marginBottom: 10, marginHorizontal: 20}}> 
+                            <Text style={{color: theme.text_primary, fontSize: 18, fontWeight: 500, marginBottom: 5}}>To</Text>
+                            <DateTimePicker mode="datetime" value={filter.redeemedDay.to} minimumDate={minDate} maximumDate={maxDate} themeVariant={theme.name} onChange={updateMax}/>
+                        </View>
+                    </View>
+                    : null
+                }
+                <View style={{flexDirection: "row", alignItems: "center", marginBottom: 10}}>
+                    <Text style={{color: theme.text_primary, fontSize: 18, fontWeight: 500, marginHorizontal: 10}}>Revoked</Text>
+                    <Checkbox 
+                        checked={filter.revoked} 
+                        setChecked={() => {
+                            setFilter(filter => ({
+                                ...filter,
+                                revoked: !filter.revoked
+                            }))
+                        }}
+                    />
+                </View>
+                {filter.revoked ? 
+                    <View style={{marginBottom: 10}}>
+                        <View style={{marginBottom: 10, marginHorizontal: 20}}> 
+                            <Text style={{color: theme.text_primary, fontSize: 18, fontWeight: 500, marginBottom: 5}}>From</Text>
+                            <DateTimePicker mode="datetime" value={filter.revokedDay.from} minimumDate={minDate} maximumDate={maxDate} themeVariant={theme.name} onChange={updateMin}/>
+                        </View>
+                        <View style={{marginBottom: 10, marginHorizontal: 20}}> 
+                            <Text style={{color: theme.text_primary, fontSize: 18, fontWeight: 500, marginBottom: 5}}>To</Text>
+                            <DateTimePicker mode="datetime" value={filter.revokedDay.to} minimumDate={minDate} maximumDate={maxDate} themeVariant={theme.name} onChange={updateMax}/>
+                        </View>
+                    </View>
+                    : null
+                }
                 <View style={{flexDirection: "row", alignItems: "center"}}>
                     <Text style={{color: theme.text_primary, fontSize: 18, fontWeight: 500, marginHorizontal: 10}}>Not Redeemed</Text>
                     <Checkbox 
