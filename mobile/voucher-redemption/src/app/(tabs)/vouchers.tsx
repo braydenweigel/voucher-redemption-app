@@ -191,8 +191,11 @@ function VoucherRow({v, openRowRef}: VoucherRowProps){
         >
             <View key="actions"><SwipeAction v={v} rowRef={rowRef}/></View>
             <View key="row" style={styles.tableRow}>
-                <Text style={{color: theme.text_primary, flex: 0.45, fontSize: 18}}>{v.voucherid}</Text>
-                <View style={{flex: 0.25, alignSelf: "center",}}>{v.redeemed ? <CircleCheck color="#44ef63"/> : (v.revoked ? <CircleX color="#EF4444"/> : <CircleMinus color={theme.text_muted}/>)}</View>
+                <View style={{flex: 0.5}}>
+                    <Text style={{color: theme.text_primary, fontSize: 18}}>{v.voucherid}</Text>
+                    <Text style={{color: theme.text_primary, fontSize: 12}}>{v.batch}</Text>
+                </View>
+                <View style={{flex: 0.2, alignSelf: "center",}}>{v.redeemed ? <CircleCheck color="#44ef63"/> : (v.revoked ? <CircleX color="#EF4444"/> : <CircleMinus color={theme.text_muted}/>)}</View>
                 <Text style={{color: theme.text_primary, flex: 0.3, textAlign: "center", fontSize: 14}}>{v.redeemed ? convertDate(v.redeemedat) : (v.revoked ? convertDate(v.revokedat) : null)}</Text>
             </View>
         </SwipeRowAny>

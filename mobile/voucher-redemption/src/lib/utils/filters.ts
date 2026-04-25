@@ -46,9 +46,10 @@ export function filterVouchers(vouchers: Voucher[], filters: VoucherFilters){
     return vouchers.filter(voucher => {
         //Filter by Voucher ID
         if (filters.id && filters.id.length > 0){
-            const filterString = filters.id.trim().toLowerCase()
+            const f = filters.id.trim().toLowerCase()
             const voucherID = voucher.voucherid.toLowerCase()
-            if(!voucherID.includes(filterString)) return false
+            const voucherBatch = voucher.batch.toLowerCase()
+            if(!voucherID.includes(f) && !voucherBatch.includes(f)) return false
         }
 
         if (filters.redeemed || filters.unredeemed || filters.revoked){//only filter by redemption status if at least one box is checked. If both are checked, no redemption status filters will be applied

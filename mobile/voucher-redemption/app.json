@@ -10,7 +10,7 @@
     "splash": {
       "image": "./assets/splash.png",
       "resizeMode": "contain",
-      "backgroundColor": "#594c5b"
+      "backgroundColor": "#1d161e"
     },
     "ios": {
       "supportsTablet": true,
@@ -50,7 +50,8 @@
           "cameraPermission": "Allow $(PRODUCT_NAME) to access your camera",
           "barcodeScannerEnabled": true
         }
-      ]
+      ],
+      "expo-asset"
     ],
     "experiments": {
       "typedRoutes": true

@@ -1,1 +1,0 @@
-alter table public.vouchers enable row level security;

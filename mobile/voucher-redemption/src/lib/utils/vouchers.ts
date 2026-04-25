@@ -24,7 +24,7 @@ export async function verifyVoucher(id: string, dispatch: AppDispatch){
 
     Alert.alert(
         "Redeem Voucher?", 
-        undefined, 
+        `${data.batch}`, 
         [
             { text: "Cancel", style: "cancel" },
             { text: "Redeem", onPress: () => redeemVoucher(id, dispatch) }
@@ -49,7 +49,7 @@ export async function redeemVoucher(id: string, dispatch: AppDispatch){
     //update voucher in Redux here
     dispatch(updateVoucherRedeemed({id: data.voucherid, redeemedat: data.redeemedat}))
 
-    Alert.alert("Voucher Redeemed!")     
+    Alert.alert("Voucher Redeemed!", `${data.batch}`)     
 }
 
 export async function revokeVoucher(id: string, dispatch: AppDispatch){    
