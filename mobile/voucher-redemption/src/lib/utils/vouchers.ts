@@ -8,7 +8,7 @@ export async function verifyVoucher(id: string, dispatch: AppDispatch){
     const { data, error } = await supabase
             .from('vouchers')
             .select()
-            .eq("voucherid", id)
+            .eq("voucherid", id.toUpperCase())
             .limit(1)
             .single()
     
@@ -23,11 +23,11 @@ export async function verifyVoucher(id: string, dispatch: AppDispatch){
     }
 
     Alert.alert(
-        "Redeem Voucher?", 
+        `Redeem Voucher ${data.voucherid}?`, 
         `${data.batch}`, 
         [
             { text: "Cancel", style: "cancel" },
-            { text: "Redeem", onPress: () => redeemVoucher(id, dispatch) }
+            { text: "Redeem", onPress: () => redeemVoucher(data.voucherid, dispatch) }
         ]
     )
     
@@ -49,7 +49,7 @@ export async function redeemVoucher(id: string, dispatch: AppDispatch){
     //update voucher in Redux here
     dispatch(updateVoucherRedeemed({id: data.voucherid, redeemedat: data.redeemedat}))
 
-    Alert.alert("Voucher Redeemed!", `${data.batch}`)     
+    Alert.alert(`Voucher ${data.voucherid} Redeemed!`, `${data.batch}`)     
 }
 
 export async function revokeVoucher(id: string, dispatch: AppDispatch){    
