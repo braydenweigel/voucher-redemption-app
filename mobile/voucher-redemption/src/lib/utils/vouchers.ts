@@ -22,6 +22,11 @@ export async function verifyVoucher(id: string, dispatch: AppDispatch){
         return
     }
 
+    if (data.revoked){
+        Alert.alert("Voucher has been revoked!")
+        return
+    }
+
     Alert.alert(
         `Redeem Voucher ${data.voucherid}?`, 
         `${data.batch}`, 
