@@ -72,7 +72,7 @@ function ThemeButton({ themeID, title, width }: ThemeButtonProps){
 
     return (
         <Pressable style={[styles.button, (selected ? styles.buttonSelected : styles.buttonUnselected)]} onPress={handleButton}>
-            <Text style={styles.text}>{title}</Text>
+            <Text style={styles.text} allowFontScaling={false}>{title}</Text>
         </Pressable>
     )
 }

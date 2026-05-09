@@ -30,7 +30,7 @@ export default function Header({ text, children, style, textStyle, ...props }: H
 
     return (
         <View style={[styles.header, style]} {...props}>
-            <Text style={[styles.text, textStyle]}>{text}</Text>
+            <Text style={[styles.text, textStyle]} allowFontScaling={false}>{text}</Text>
             {children}
         </View>
     )

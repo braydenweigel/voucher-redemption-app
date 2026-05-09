@@ -127,12 +127,12 @@ export default function VouchersPage(){
             </Input>
             <View style={styles.tableHead}>
                 <Pressable style={{flex: 0.4, flexDirection: "row", justifyContent: "flex-start"}} onPress={() => handleSort("ID")}>
-                    <Text style={{color: theme.text_primary, fontSize: 18, fontWeight: 500}}>Voucher ID</Text>
+                    <Text style={{color: theme.text_primary, fontSize: 18, fontWeight: 500}} allowFontScaling={false}>Voucher ID</Text>
                     <ArrowDownUp color={theme.text_primary} style={{marginLeft: 6}}/>
                 </Pressable>
-                <Text style={{color: theme.text_primary, flex: 0.3, textAlign: "center", fontSize: 18, fontWeight: 500}}>Status</Text>
+                <Text style={{color: theme.text_primary, flex: 0.3, textAlign: "center", fontSize: 18, fontWeight: 500}} allowFontScaling={false}>Status</Text>
                 <Pressable style={{flex: 0.3, flexDirection: "row", justifyContent: "flex-end"}} onPress={() => handleSort("DATE")}>
-                    <Text style={{color: theme.text_primary, fontSize: 18, fontWeight: 500}}>Date</Text>
+                    <Text style={{color: theme.text_primary, fontSize: 18, fontWeight: 500}} allowFontScaling={false}>Date</Text>
                     <ArrowDownUp color={theme.text_primary} style={{marginLeft: 6}}/>
                 </Pressable>
             </View>
@@ -192,11 +192,11 @@ function VoucherRow({v, openRowRef}: VoucherRowProps){
             <View key="actions"><SwipeAction v={v} rowRef={rowRef}/></View>
             <View key="row" style={styles.tableRow}>
                 <View style={{flex: 0.5}}>
-                    <Text style={{color: theme.text_primary, fontSize: 18}}>{v.voucherid}</Text>
-                    <Text style={{color: theme.text_primary, fontSize: 12}}>{v.batch}</Text>
+                    <Text style={{color: theme.text_primary, fontSize: 18}} allowFontScaling={false}>{v.voucherid}</Text>
+                    <Text style={{color: theme.text_primary, fontSize: 12}} allowFontScaling={false}>{v.batch}</Text>
                 </View>
                 <View style={{flex: 0.2, alignSelf: "center",}}>{v.redeemed ? <CircleCheck color="#44ef63"/> : (v.revoked ? <CircleX color="#EF4444"/> : <CircleMinus color={theme.text_muted}/>)}</View>
-                <Text style={{color: theme.text_primary, flex: 0.3, textAlign: "center", fontSize: 14}}>{v.redeemed ? convertDate(v.redeemedat) : (v.revoked ? convertDate(v.revokedat) : null)}</Text>
+                <Text style={{color: theme.text_primary, flex: 0.3, textAlign: "center", fontSize: 14}} allowFontScaling={false}>{v.redeemed ? convertDate(v.redeemedat) : (v.revoked ? convertDate(v.revokedat) : null)}</Text>
             </View>
         </SwipeRowAny>
     )
@@ -245,7 +245,7 @@ function SwipeAction({v, rowRef}: SwipeActionProps){
             onPress={handlePress}
             style={[styles.swipe, {backgroundColor: revokable ? "#EF4444" : theme.accent_primary}]}
         >
-            <Text style={{color: theme.text_accent, fontSize: 14}}>{revokable ? "Revoke" : "Reissue"}</Text>
+            <Text style={{color: theme.text_accent, fontSize: 14}} allowFontScaling={false}>{revokable ? "Revoke" : "Reissue"}</Text>
         </Pressable>
     )
 }

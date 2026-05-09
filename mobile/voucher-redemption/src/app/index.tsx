@@ -34,7 +34,7 @@ export default function LoginPage(){
     return (
         <SafeAreaPage style={{justifyContent: 'center', alignItems: 'center'}}>
             <Card>
-                <Text style={styles.header}>Sign In to Your Account</Text>
+                <Text style={styles.header} allowFontScaling={false}>Sign In to Your Account</Text>
                 <View>
                     <InputLabel value="Email"/>   
                     <Input value={email} onChangeText={setEmail} placeholder="Email" style={{marginBottom: 20}}/>

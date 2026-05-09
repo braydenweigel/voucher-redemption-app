@@ -44,7 +44,7 @@ export default function EditProfile({open, setOpen}: EditProfileProps){
 
     return (
         <Dialog open={open} setOpen={setOpen} style={{position: "absolute", top: 80, alignSelf: "center"}}>
-            <Text style={styles.header}>Edit Profile</Text>
+            <Text style={styles.header} allowFontScaling={false}>Edit Profile</Text>
             <View style={styles.content}>
                 <InputLabel value="First Name"/>   
                 <Input value={first} onChangeText={setFirst} placeholder="First Name" style={{marginBottom: 20}}/>

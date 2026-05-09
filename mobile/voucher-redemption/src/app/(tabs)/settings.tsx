@@ -38,12 +38,12 @@ export default function SettingsPage(){
                 <Pressable onPress={handleEditClicked}><Pencil color={theme.text_primary}/></Pressable>
             </Header>
             <View style={{}}>
-                <Text style={{color: theme.text_primary, fontSize: 20, marginBottom: 5}}>{data?.first_name} {data?.last_name}</Text>
-                <Text style={{color: theme.text_primary, fontSize: 18, marginBottom: 5}}>{data?.email}</Text>
+                <Text style={{color: theme.text_primary, fontSize: 20, marginBottom: 5}} allowFontScaling={false}>{data?.first_name} {data?.last_name}</Text>
+                <Text style={{color: theme.text_primary, fontSize: 18, marginBottom: 5}} allowFontScaling={false}>{data?.email}</Text>
             </View>
             <Header text="Settings"/>
             <View style={{flexDirection: "row", alignItems: "center", marginBottom: 10}}>
-                <Text style={{color: theme.text_primary, fontSize: 20, flex: 1}}>Theme</Text>
+                <Text style={{color: theme.text_primary, fontSize: 20, flex: 1}} allowFontScaling={false}>Theme</Text>
                 <ThemeToggle/>
             </View>
             

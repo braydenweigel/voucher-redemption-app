@@ -32,7 +32,7 @@ export default function Button({text, children, style, textStyle, ...props}: But
     return (
         <Pressable style={[styles.button, style]} {...props}>
             {children ? children : text && (
-                <Text style={[styles.buttonText, textStyle]}>{text}</Text>
+                <Text style={[styles.buttonText, textStyle]} allowFontScaling={false}>{text}</Text>
             )}
         </Pressable>
     )

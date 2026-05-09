@@ -56,7 +56,7 @@ export default function HomePage(){
                 setVoucher={setVoucher}
                 scanLock={scanLock}
             />}
-            <Text style={{fontWeight: "bold", fontSize: 18, color: theme.text_primary, textAlign: "center", marginTop: 10, marginBottom: 10}}>Scan Voucher or Input Voucher ID</Text>
+            <Text style={{fontWeight: "bold", fontSize: 18, color: theme.text_primary, textAlign: "center", marginTop: 10, marginBottom: 10}} allowFontScaling={false}>Scan Voucher or Input Voucher ID</Text>
             <Input placeholder="Voucher ID" value={voucher} onChangeText={t => setVoucher(t)} style={{marginBottom: 15}}>
                 <Pressable onPress={handleScanClicked}><ScanBarcode color={theme.text_primary}/></Pressable> 
             </Input>

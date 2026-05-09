@@ -60,7 +60,7 @@ export default function FilterDialog({open, setOpen, filter, setFilter}: FilterD
 
     return (
         <Dialog open={open} setOpen={setOpen} style={{position: "absolute", top: 80, alignSelf: "center", minHeight: 400}}>
-            <Text style={styles.header}>Filter Vouchers</Text>
+            <Text style={styles.header} allowFontScaling={false}>Filter Vouchers</Text>
             <View style={styles.content}>
                 <View style={{flexDirection: "row", alignItems: "center", marginBottom: 10}}>
                     <Checkbox 
@@ -72,17 +72,21 @@ export default function FilterDialog({open, setOpen, filter, setFilter}: FilterD
                             }))
                         }}
                     />
-                    <Text style={{color: theme.text_primary, fontSize: 18, fontWeight: 500, marginHorizontal: 10}}>Redeemed</Text>
+                    <Text style={{color: theme.text_primary, fontSize: 18, fontWeight: 500, marginHorizontal: 10}} allowFontScaling={false}>Redeemed</Text>
                 </View>
                 {filter.redeemed ? 
                     <View style={{marginBottom: 10}}>
                         <View style={{marginBottom: 10, marginHorizontal: 20, display: "flex", flexDirection: "row", alignItems: "center", justifyContent: "space-between"}}> 
-                            <Text style={{color: theme.text_primary, fontSize: 18, fontWeight: 500 }}>From</Text>
-                            <DateTimePicker mode="datetime" value={filter.redeemedDay.from} minimumDate={minDate} maximumDate={maxDate} themeVariant={theme.name} onChange={updateMin}/>
+                            <Text style={{color: theme.text_primary, fontSize: 18, fontWeight: 500 }} allowFontScaling={false}>From</Text>
+                            <View style={{ transform: [{ scale: 0.85 }] }}>
+                                <DateTimePicker mode="datetime" value={filter.redeemedDay.from} minimumDate={minDate} maximumDate={maxDate} themeVariant={theme.name} onChange={updateMin}/>
+                            </View>
                         </View>
                         <View style={{marginBottom: 10, marginHorizontal: 20, display: "flex", flexDirection: "row", alignItems: "center", justifyContent: "space-between"}}> 
-                            <Text style={{color: theme.text_primary, fontSize: 18, fontWeight: 500}}>To</Text>
-                            <DateTimePicker mode="datetime" value={filter.redeemedDay.to} minimumDate={minDate} maximumDate={maxDate} themeVariant={theme.name} onChange={updateMax}/>
+                            <Text style={{color: theme.text_primary, fontSize: 18, fontWeight: 500}} allowFontScaling={false}>To</Text>
+                            <View style={{ transform: [{ scale: 0.85 }] }}>
+                                <DateTimePicker mode="datetime" value={filter.redeemedDay.to} minimumDate={minDate} maximumDate={maxDate} themeVariant={theme.name} onChange={updateMax}/>
+                            </View>
                         </View>
                     </View>
                     : null
@@ -97,17 +101,21 @@ export default function FilterDialog({open, setOpen, filter, setFilter}: FilterD
                             }))
                         }}
                     />
-                    <Text style={{color: theme.text_primary, fontSize: 18, fontWeight: 500, marginHorizontal: 10}}>Revoked</Text>
+                    <Text style={{color: theme.text_primary, fontSize: 18, fontWeight: 500, marginHorizontal: 10}} allowFontScaling={false}>Revoked</Text>
                 </View>
                 {filter.revoked ? 
                     <View style={{marginBottom: 10}}>
                         <View style={{marginBottom: 10, marginHorizontal: 20, display: "flex", flexDirection: "row", alignItems: "center", justifyContent: "space-between"}}> 
-                            <Text style={{color: theme.text_primary, fontSize: 18, fontWeight: 500}}>From</Text>
-                            <DateTimePicker mode="datetime" value={filter.revokedDay.from} minimumDate={minDate} maximumDate={maxDate} themeVariant={theme.name} onChange={updateMin}/>
+                            <Text style={{color: theme.text_primary, fontSize: 18, fontWeight: 500}} allowFontScaling={false}>From</Text>
+                            <View style={{ transform: [{ scale: 0.85 }] }}>
+                                <DateTimePicker mode="datetime" value={filter.revokedDay.from} minimumDate={minDate} maximumDate={maxDate} themeVariant={theme.name} onChange={updateMin}/>
+                            </View>
                         </View>
                         <View style={{marginBottom: 10, marginHorizontal: 20, display: "flex", flexDirection: "row", alignItems: "center", justifyContent: "space-between"}}> 
-                            <Text style={{color: theme.text_primary, fontSize: 18, fontWeight: 500}}>To</Text>
-                            <DateTimePicker mode="datetime" value={filter.revokedDay.to} minimumDate={minDate} maximumDate={maxDate} themeVariant={theme.name} onChange={updateMax}/>
+                            <Text style={{color: theme.text_primary, fontSize: 18, fontWeight: 500}} allowFontScaling={false}>To</Text>
+                            <View style={{ transform: [{ scale: 0.85 }] }}>
+                                <DateTimePicker mode="datetime" value={filter.revokedDay.to} minimumDate={minDate} maximumDate={maxDate} themeVariant={theme.name} onChange={updateMax}/>
+                            </View>
                         </View>
                     </View>
                     : null
@@ -122,7 +130,7 @@ export default function FilterDialog({open, setOpen, filter, setFilter}: FilterD
                             }))
                         }}
                     />
-                    <Text style={{color: theme.text_primary, fontSize: 18, fontWeight: 500, marginHorizontal: 10}}>Not Redeemed</Text>
+                    <Text style={{color: theme.text_primary, fontSize: 18, fontWeight: 500, marginHorizontal: 10}} allowFontScaling={false}>Not Redeemed</Text>
                 </View>
                 
             </View>

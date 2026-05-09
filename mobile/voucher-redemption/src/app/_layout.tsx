@@ -10,6 +10,7 @@ import { ThemeProvider } from "@/lib/providers/theme-provider"
 import { StatusBar } from "expo-status-bar"
 import { useTheme } from "@/lib/hooks/use-theme-context"
 
+
 function RootNavigator(){
     const { isLoggedIn, getSession } = useAuth()
 

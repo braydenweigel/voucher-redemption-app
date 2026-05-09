@@ -31,7 +31,7 @@ export function Input({children, style, textStyle, ...props}: InputProps){
 
     return (
         <View style={[styles.inputView, style]}>
-            <TextInput style={[styles.input, textStyle]} placeholderTextColor={theme.text_muted} {...props}/>
+            <TextInput style={[styles.input, textStyle]} placeholderTextColor={theme.text_muted} allowFontScaling={false} {...props}/>
             {children}
         </View>
     )
@@ -54,7 +54,7 @@ export function InputLabel({value, textStyle}: InputLabelProps){
     })
 
     return (
-        <Text style={[styles.label, textStyle]}>{value}</Text>
+        <Text style={[styles.label, textStyle]} allowFontScaling={false}>{value}</Text>
     )
 }
 
