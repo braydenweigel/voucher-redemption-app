@@ -114,20 +114,20 @@ export default function VouchersPage(){
             </Header>
             <Card style={{display: "flex", flexDirection: "row", marginBottom: 10, paddingVertical: 10, width: "auto"}}>
                 <View style={styles.stat}>
-                    <Text style={{color: theme.text_primary}}>Total</Text>
-                    <Text style={{color: theme.text_primary, fontWeight: "bold"}}>{displayVouchers.length}</Text>
+                    <Text style={{color: theme.text_primary}} allowFontScaling={false}>Total</Text>
+                    <Text style={{color: theme.text_primary, fontWeight: "bold", fontSize: 16}} allowFontScaling={false}>{displayVouchers.length}</Text>
                 </View>
                 <View style={styles.stat}>
-                    <Text style={{color: theme.text_primary}}>Redeemed</Text>
-                    <Text style={{color: theme.text_primary, fontWeight: "bold"}}>{displayVouchers.filter((v) => v.redeemed).length}</Text>
+                    <Text style={{color: theme.text_primary}} allowFontScaling={false}>Redeemed</Text>
+                    <Text style={{color: theme.text_primary, fontWeight: "bold", fontSize: 16}} allowFontScaling={false}>{displayVouchers.filter((v) => v.redeemed).length}</Text>
                 </View>
                 <View style={styles.stat}>
-                    <Text style={{color: theme.text_primary}}>Not Redeemed</Text>
-                    <Text style={{color: theme.text_primary, fontWeight: "bold"}}>{displayVouchers.filter((v) => !v.redeemed && !v.revoked).length}</Text>
+                    <Text style={{color: theme.text_primary}} allowFontScaling={false}>Not Redeemed</Text>
+                    <Text style={{color: theme.text_primary, fontWeight: "bold", fontSize: 16}} allowFontScaling={false}>{displayVouchers.filter((v) => !v.redeemed && !v.revoked).length}</Text>
                 </View>
                 <View style={styles.stat}>
-                    <Text style={{color: theme.text_primary}}>Revoked</Text>
-                    <Text style={{color: theme.text_primary, fontWeight: "bold"}}>{displayVouchers.filter((v) => v.revoked).length}</Text>
+                    <Text style={{color: theme.text_primary}} allowFontScaling={false}>Revoked</Text>
+                    <Text style={{color: theme.text_primary, fontWeight: "bold", fontSize: 16}} allowFontScaling={false}>{displayVouchers.filter((v) => v.revoked).length}</Text>
                 </View>
             </Card>
             <Input onChangeText={(s) => {
