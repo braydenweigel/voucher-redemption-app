@@ -12,6 +12,7 @@ import { Input } from "@/lib/components/lib/input";
 import FilterDialog from "@/lib/components/lib/filter-dialog";
 import { reissueVoucher, revokeVoucher } from "@/lib/utils/vouchers";
 import { SwipeListView, SwipeRow } from "react-native-swipe-list-view";
+import Card from "@/lib/components/lib/card";
 
 function convertDate(date: Date | null){
     if (!date) return ""
@@ -111,6 +112,24 @@ export default function VouchersPage(){
             <Header text="Vouchers">
                 <Pressable onPress={handleFilterClicked}><SlidersHorizontal color={theme.text_primary}/></Pressable>
             </Header>
+            <Card style={{display: "flex", flexDirection: "row", marginBottom: 10, paddingVertical: 10, width: "auto"}}>
+                <View style={styles.stat}>
+                    <Text style={{color: theme.text_primary}}>Total</Text>
+                    <Text style={{color: theme.text_primary, fontWeight: "bold"}}>{displayVouchers.length}</Text>
+                </View>
+                <View style={styles.stat}>
+                    <Text style={{color: theme.text_primary}}>Redeemed</Text>
+                    <Text style={{color: theme.text_primary, fontWeight: "bold"}}>{displayVouchers.filter((v) => v.redeemed).length}</Text>
+                </View>
+                <View style={styles.stat}>
+                    <Text style={{color: theme.text_primary}}>Not Redeemed</Text>
+                    <Text style={{color: theme.text_primary, fontWeight: "bold"}}>{displayVouchers.filter((v) => !v.redeemed && !v.revoked).length}</Text>
+                </View>
+                <View style={styles.stat}>
+                    <Text style={{color: theme.text_primary}}>Revoked</Text>
+                    <Text style={{color: theme.text_primary, fontWeight: "bold"}}>{displayVouchers.filter((v) => v.revoked).length}</Text>
+                </View>
+            </Card>
             <Input onChangeText={(s) => {
                     setFilter(filter => ({
                         ...filter,
@@ -284,6 +303,12 @@ function getStyles(theme: Theme){
             width: 90,
             position: "absolute",
             right: 0
+        },
+        stat: {
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
+            flex: 0.25
         }
     })
 }
