@@ -112,7 +112,7 @@ export default function VouchersPage(){
             <Header text="Vouchers">
                 <Pressable onPress={handleFilterClicked}><SlidersHorizontal color={theme.text_primary}/></Pressable>
             </Header>
-            <Card style={{display: "flex", flexDirection: "row", marginBottom: 10, paddingVertical: 10, width: "auto"}}>
+            <Card style={{display: "flex", flexDirection: "row", marginBottom: 10, paddingVertical: 10, paddingHorizontal: 0, width: "auto"}}>
                 <View style={styles.stat}>
                     <Text style={{color: theme.text_primary, fontSize: 12}} allowFontScaling={false}>Total</Text>
                     <Text style={{color: theme.text_primary, fontWeight: "bold", fontSize: 16}} allowFontScaling={false}>{displayVouchers.length}</Text>
